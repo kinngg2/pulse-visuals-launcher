@@ -146,6 +146,10 @@ body::before {
   animation: fade-in 0.25s ease-out;
 }
 
+.screen[hidden] {
+  display: none;
+}
+
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(4px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -471,6 +475,10 @@ body::before {
   justify-content: center;
   z-index: 10;
   animation: fade-in 0.18s ease-out;
+}
+
+.modal[hidden] {
+  display: none;
 }
 
 .modal-card {
