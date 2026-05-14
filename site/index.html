@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>MonoClient — Премиум-клиент для Minecraft</title>
+  <meta name="description" content="MonoClient — премиум Minecraft-клиент для Funtime.su. Двухкарточный UI, выбор версии, авторизация, продвинутый функционал и поддержка." />
+  <meta name="theme-color" content="#07070b" />
+  <meta property="og:title" content="MonoClient — Премиум-клиент для Minecraft" />
+  <meta property="og:description" content="MonoClient — премиум Minecraft-клиент для Funtime.su. Двухкарточный UI, выбор версии, авторизация, продвинутый функционал и поддержка." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="./icon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="256x256" href="./apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="page-glow" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <nav class="nav">
+      <a class="nav-brand" href="#top">
+        <span class="diamond" aria-hidden="true"></span>
+        <span class="nav-brand-text">MonoClient</span>
+      </a>
+      <div class="nav-links">
+        <a class="nav-link" href="#features">Возможности</a>
+        <a class="nav-link" href="#preview">Превью</a>
+        <a class="nav-link" href="#pricing">Цены</a>
+        <a class="nav-link" href="#support">Поддержка</a>
+      </div>
+      <div class="nav-actions" id="nav-actions">
+        <!-- when logged out -->
+        <div class="nav-auth" id="nav-auth-out">
+          <button class="ghost-btn nav-ghost" type="button" data-auth-open="login">Войти</button>
+          <button class="primary-btn nav-cta" type="button" data-auth-open="register">
+            <span>Регистрация</span>
+            <span class="arrow" aria-hidden="true">↗</span>
+          </button>
+        </div>
+        <!-- when logged in -->
+        <div class="nav-auth" id="nav-auth-in" hidden>
+          <button class="user-pill nav-user" type="button" id="nav-user-pill" aria-haspopup="true" aria-expanded="false">
+            <span class="user-avatar" id="nav-user-avatar" aria-hidden="true"></span>
+            <span class="user-name" id="nav-user-name">Player</span>
+            <span class="user-role-badge" id="nav-user-role">User</span>
+            <span class="chev" aria-hidden="true">˅</span>
+          </button>
+          <div class="user-menu" id="nav-user-menu" hidden role="menu">
+            <a class="user-menu__item" href="./profile.html" role="menuitem">
+              <span class="user-menu__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>Мой профиль
+            </a>
+            <a class="user-menu__item" href="./profile.html#subs" role="menuitem">
+              <span class="user-menu__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg></span>Моя подписка
+            </a>
+            <a class="user-menu__item" href="./profile.html#configs" role="menuitem">
+              <span class="user-menu__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18a4 4 0 1 0-1-7.9A5 5 0 0 0 7 11.5 4 4 0 0 0 7.5 18H17Z"/></svg></span>Конфиги
+            </a>
+            <hr class="user-menu__sep" />
+            <button class="user-menu__item user-menu__item--danger" id="nav-logout" type="button" role="menuitem">
+              <span class="user-menu__ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M15 17V19a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v2"/><path d="M21 12H10m0 0 4-4m-4 4 4 4"/></svg></span>Выйти
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="grid-overlay"></div>
+        <div class="hero-glow"></div>
+      </div>
+      <div class="hero-inner container">
+        <h1 class="hero-title">
+          <span class="hero-accent">MonoClient</span>
+          <span>— твой ключ<br />к победе на Funtime</span>
+        </h1>
+        <p class="hero-sub">
+          Премиум-клиент с продуманным UI, быстрой авторизацией и продвинутым
+          функционалом. Создан для тех, кто играет всерьёз.
+        </p>
+        <div class="hero-actions">
+          <a class="primary-btn hero-cta" href="https://github.com/kinngg2/pulse-visuals-launcher/releases/latest" data-gated-action="download">
+            <span>Скачать клиент</span>
+            <span class="arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="ghost-btn" href="#support">Поддержка</a>
+        </div>
+
+        <!-- Stacked previews -->
+        <div class="hero-previews" aria-hidden="true">
+          <div class="preview-card preview-card--left">
+            <div class="preview-head">
+              <span class="preview-dot"></span>
+              <span class="preview-dot"></span>
+              <span class="preview-dot"></span>
+              <span class="preview-title">MonoClient · Настройки</span>
+            </div>
+            <div class="preview-body">
+              <div class="module-row">
+                <span class="module-name">Killaura</span>
+                <span class="module-bind">L. SHIFT + B</span>
+                <span class="module-toggle on"></span>
+              </div>
+              <div class="module-row">
+                <span class="module-name">ESP</span>
+                <span class="module-bind">L. SHIFT + V</span>
+                <span class="module-toggle on"></span>
+              </div>
+              <div class="setting">
+                <div class="setting-title">Название настройки</div>
+                <div class="setting-sub">Описание настройки</div>
+                <div class="color-row">
+                  <span class="swatch swatch--accent"></span>
+                  <span class="swatch s1"></span>
+                  <span class="swatch s2"></span>
+                  <span class="swatch s3"></span>
+                  <span class="swatch s4"></span>
+                  <span class="swatch s5"></span>
+                  <span class="swatch s6"></span>
+                  <span class="hex">#7770FF</span>
+                </div>
+              </div>
+              <div class="setting">
+                <div class="setting-title">Название бинда</div>
+                <div class="setting-sub">L. SHIFT + W</div>
+              </div>
+            </div>
+          </div>
+          <div class="preview-card preview-card--center">
+            <div class="preview-head">
+              <span class="preview-dot"></span>
+              <span class="preview-dot"></span>
+              <span class="preview-dot"></span>
+              <span class="preview-title">MonoClient · Главное меню</span>
+            </div>
+            <div class="preview-body preview-body--center">
+              <div class="big-brand">
+                <div class="big-brand-title">MonoClient</div>
+                <div class="big-brand-version">v4.1.6</div>
+              </div>
+              <button class="preview-play" type="button">Запустить</button>
+              <div class="preview-version">
+                <span>Выбрать версию</span>
+                <span class="chev">›</span>
+              </div>
+              <div class="preview-meta">
+                <span class="chip">4.0</span>
+                <span class="dot">·</span>
+                <span class="chip">Release</span>
+                <span class="dot">·</span>
+                <span class="chip">1.21.4</span>
+              </div>
+            </div>
+          </div>
+          <div class="preview-card preview-card--right">
+            <div class="preview-head">
+              <span class="preview-dot"></span>
+              <span class="preview-dot"></span>
+              <span class="preview-dot"></span>
+              <span class="preview-title">MonoClient · Конфиги</span>
+            </div>
+            <div class="preview-body">
+              <div class="setting">
+                <div class="setting-title">Название настройки</div>
+                <div class="setting-sub">Полезное описание настройки</div>
+              </div>
+              <div class="cfg-list">
+                <div class="cfg-item">
+                  <span>FT Bedwars · Pvp</span>
+                  <span class="badge">Custom</span>
+                </div>
+                <div class="cfg-item">
+                  <span>FT Anarchy · Bow</span>
+                  <span class="badge">Cloud</span>
+                </div>
+                <div class="cfg-item">
+                  <span>FT HiTech · Speed</span>
+                  <span class="badge">Local</span>
+                </div>
+                <div class="cfg-item">
+                  <span>FT Mini · Combo</span>
+                  <span class="badge">Cloud</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY -->
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Почему MonoClient?</span>
+          <h2 class="section-title">
+            Мы предлагаем лучшие функции<br />для серверов Funtime.
+          </h2>
+          <p class="section-sub">
+            Постоянно растущий функционал и качественные байпасы под российские
+            проекты.
+          </p>
+        </div>
+
+        <div class="numbered-grid">
+          <article class="num-card">
+            <div class="num-card-top">
+              <span class="brand-small">
+                <span class="diamond" aria-hidden="true"></span> MonoClient
+              </span>
+              <span class="num">01</span>
+            </div>
+            <h3 class="num-title">Лучшие байпасы под Funtime</h3>
+            <p class="num-body">
+              Огромное количество и качество встроенных байпасов точно не оставят
+              вас равнодушными.
+            </p>
+          </article>
+          <article class="num-card">
+            <div class="num-card-top">
+              <span class="brand-small">
+                <span class="diamond" aria-hidden="true"></span> MonoClient
+              </span>
+              <span class="num">02</span>
+            </div>
+            <h3 class="num-title">Обилие боевых функций</h3>
+            <p class="num-body">
+              Полная кастомизация боевых модулей — Killaura, AutoClicker, ESP,
+              Reach — настройте всё под себя.
+            </p>
+          </article>
+          <article class="num-card">
+            <div class="num-card-top">
+              <span class="brand-small">
+                <span class="diamond" aria-hidden="true"></span> MonoClient
+              </span>
+              <span class="num">03</span>
+            </div>
+            <h3 class="num-title">Красивый и удобный интерфейс</h3>
+            <p class="num-body">
+              Никаких сложностей и бесконечных поисков функций. Мы продумали всё
+              за вас.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- INSTANT CONFIG -->
+    <section class="section" id="preview">
+      <div class="container">
+        <div class="cloud-row">
+          <div class="cloud-text">
+            <span class="eyebrow">Моментальная настройка</span>
+            <h2 class="section-title">Облачные конфиги</h2>
+            <p class="section-sub">
+              Делитесь конфигурациями с другими игроками, заимствуйте чужие
+              билды. Самая удобная система конфигов в MonoClient.
+            </p>
+            <button class="ghost-btn" type="button" data-auth-open="register">Попробовать</button>
+          </div>
+          <div class="cloud-image" aria-hidden="true">
+            <div class="cloud-card">
+              <div class="preview-head">
+                <span class="preview-dot"></span>
+                <span class="preview-dot"></span>
+                <span class="preview-dot"></span>
+                <span class="preview-title">Облако · Funtime BedWars</span>
+              </div>
+              <div class="preview-body">
+                <div class="cfg-item glow">
+                  <span>BedWars Pvp · MonoClient</span>
+                  <span class="badge accent">Топ-1</span>
+                </div>
+                <div class="cfg-item">
+                  <span>BedWars Speed · MonoClient</span>
+                  <span class="badge">Cloud</span>
+                </div>
+                <div class="cfg-item">
+                  <span>BedWars Reach · MonoClient</span>
+                  <span class="badge">Cloud</span>
+                </div>
+                <div class="cfg-item">
+                  <span>HiTech FFA · MonoClient</span>
+                  <span class="badge">Cloud</span>
+                </div>
+                <div class="cfg-item">
+                  <span>Anarchy Combat · MonoClient</span>
+                  <span class="badge">Cloud</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES GRID -->
+    <section class="section">
+      <div class="container">
+        <div class="feat-grid">
+          <article class="feat-card">
+            <div class="feat-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+            </div>
+            <h3 class="feat-title">Fabric API</h3>
+            <p class="feat-body">
+              MonoClient разработан на базе Fabric API, открывая широкие
+              возможности для кастомизации модами.
+            </p>
+          </article>
+          <article class="feat-card">
+            <div class="feat-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg>
+            </div>
+            <h3 class="feat-title">Детальные бинды</h3>
+            <p class="feat-body">
+              Создайте своё «пианино» — переключайте настройки и модули, не
+              отрываясь от игры.
+            </p>
+          </article>
+          <article class="feat-card">
+            <div class="feat-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 1 1-3.2-6.4L21 4l-1 4.5A8 8 0 0 1 21 12Z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg>
+            </div>
+            <h3 class="feat-title">Встроенный чат</h3>
+            <p class="feat-body">
+              Общайтесь с пользователями MonoClient, обменивайтесь конфигами и
+              ищите команду.
+            </p>
+          </article>
+          <article class="feat-card">
+            <div class="feat-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="m5.6 5.6 3.9 3.9M14.5 14.5l3.9 3.9M18.4 5.6l-3.9 3.9M9.5 14.5l-3.9 3.9"/></svg>
+            </div>
+            <h3 class="feat-title">Качественная поддержка</h3>
+            <p class="feat-body">
+              Команда поддержки на связи 24/7 и поможет с любым вопросом по
+              клиенту.
+            </p>
+          </article>
+          <article class="feat-card">
+            <div class="feat-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>
+            </div>
+            <h3 class="feat-title">Точная оптимизация</h3>
+            <p class="feat-body">
+              Клиент работает без лагов даже на слабых ПК, обеспечивая плавную
+              игру.
+            </p>
+          </article>
+          <article class="feat-card">
+            <div class="feat-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5 0 9-4 9-9 0-5-4-9-9-9S3 8 3 13c0 2 1 4 3 4h3a2 2 0 0 1 2 2v1a2 2 0 0 0 2 2Z"/><circle cx="7.5" cy="10" r="1"/><circle cx="11.5" cy="7" r="1"/><circle cx="16" cy="9" r="1"/><circle cx="17" cy="14" r="1"/></svg>
+            </div>
+            <h3 class="feat-title">Кастомизация UI</h3>
+            <p class="feat-body">
+              Полный контроль над внешним видом интерфейса. Настройте всё под
+              свой стиль.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="section" id="pricing">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Цены</span>
+          <h2 class="section-title">Простые и прозрачные цены</h2>
+          <p class="section-sub">Выберите подходящий тариф.</p>
+        </div>
+
+        <div class="price-grid">
+          <article class="price-card">
+            <div class="price-tag">7 дней</div>
+            <div class="price-row">
+              <span class="price-main">249<span class="rub">₽</span></span>
+              <span class="price-per">36₽ / день</span>
+            </div>
+            <ul class="price-list">
+              <li>Полный функционал</li>
+              <li>Все обновления</li>
+              <li>Поддержка 24/7</li>
+            </ul>
+            <button class="ghost-btn full" type="button" data-gated-action="buy" data-plan="7" data-price="249">Выбрать</button>
+          </article>
+          <article class="price-card price-card--popular">
+            <div class="price-badge">Популярный</div>
+            <div class="price-tag">30 дней</div>
+            <div class="price-row">
+              <span class="price-main">429<span class="rub">₽</span></span>
+              <span class="price-per">14₽ / день · −60%</span>
+            </div>
+            <ul class="price-list">
+              <li>Полный функционал</li>
+              <li>Все обновления</li>
+              <li>Поддержка 24/7</li>
+              <li>Облачные конфиги</li>
+            </ul>
+            <button class="primary-btn full" type="button" data-gated-action="buy" data-plan="30" data-price="429">
+              <span>Выбрать</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </button>
+          </article>
+          <article class="price-card">
+            <div class="price-tag">90 дней</div>
+            <div class="price-row">
+              <span class="price-main">999<span class="rub">₽</span></span>
+              <span class="price-per">11₽ / день · −69%</span>
+            </div>
+            <ul class="price-list">
+              <li>Полный функционал</li>
+              <li>Все обновления</li>
+              <li>Поддержка 24/7</li>
+              <li>+1 месяц в подарок</li>
+            </ul>
+            <button class="ghost-btn full" type="button" data-gated-action="buy" data-plan="90" data-price="999">Выбрать</button>
+          </article>
+          <article class="price-card">
+            <div class="price-tag">180 дней</div>
+            <div class="price-row">
+              <span class="price-main">1 499<span class="rub">₽</span></span>
+              <span class="price-per">8₽ / день · −77%</span>
+            </div>
+            <ul class="price-list">
+              <li>Полный функционал</li>
+              <li>Все обновления</li>
+              <li>Поддержка 24/7</li>
+              <li>+2 месяца в подарок</li>
+            </ul>
+            <button class="ghost-btn full" type="button" data-gated-action="buy" data-plan="180" data-price="1499">Выбрать</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- DOWNLOAD CTA -->
+    <section class="section cta-section" id="download">
+      <div class="container">
+        <div class="cta-card">
+          <div class="cta-text">
+            <h2 class="section-title">Играй по-другому<br />с MonoClient</h2>
+            <p class="section-sub">
+              Скачивайте установщик прямо из последнего релиза. Поддерживается
+              Windows x64.
+            </p>
+          </div>
+          <div class="cta-actions">
+            <a
+              class="primary-btn big"
+              href="https://github.com/kinngg2/pulse-visuals-launcher/releases/latest"
+              data-gated-action="download"
+            >
+              <span>Скачать .exe</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+            <a
+              class="ghost-btn big"
+              id="support"
+              href="https://github.com/kinngg2/pulse-visuals-launcher/issues"
+            >
+              Поддержка
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="diamond" aria-hidden="true"></span>
+        <div>
+          <div class="footer-brand-name">MonoClient</div>
+          <div class="footer-brand-sub">
+            Премиум Minecraft-клиент для Funtime.su.
+          </div>
+        </div>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <div class="footer-col-title">Продукт</div>
+          <a href="https://github.com/kinngg2/pulse-visuals-launcher/releases/latest" data-gated-action="download">Скачать</a>
+          <a href="#pricing">Купить</a>
+          <a href="#support">Поддержка</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Документы</div>
+          <a href="#">Пользовательское соглашение</a>
+          <a href="#">Политика конфиденциальности</a>
+          <a href="#">Политика возврата</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Связь</div>
+          <a href="https://github.com/kinngg2/pulse-visuals-launcher">GitHub</a>
+          <a href="#">Discord</a>
+          <a href="#">Telegram</a>
+        </div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>© 2026 — MonoClient. Все права защищены.</span>
+      <span class="footer-sep">·</span>
+      <span>made with care by MonoClient team</span>
+    </div>
+  </footer>
+
+  <!-- ===================== AUTH MODAL ===================== -->
+  <div class="modal" id="auth-modal" hidden role="dialog" aria-modal="true" aria-labelledby="auth-title">
+    <div class="modal-backdrop" data-modal-close></div>
+    <div class="modal-card">
+      <button class="modal-close" type="button" aria-label="Закрыть" data-modal-close>×</button>
+      <div class="modal-brand">
+        <span class="diamond" aria-hidden="true"></span>
+        <h2 id="auth-title">MonoClient</h2>
+      </div>
+      <div class="auth-tabs" role="tablist">
+        <button class="auth-tab is-active" type="button" data-auth-tab="login" role="tab" aria-selected="true">Вход</button>
+        <button class="auth-tab" type="button" data-auth-tab="register" role="tab" aria-selected="false">Регистрация</button>
+      </div>
+
+      <!-- LOGIN -->
+      <form class="auth-form" id="form-login" novalidate>
+        <p class="auth-intro">Войдите, чтобы скачать клиент или купить подписку.</p>
+        <label class="auth-field">
+          <span>Логин или email</span>
+          <input type="text" name="identifier" autocomplete="username" required placeholder="player1 или you@example.com" />
+        </label>
+        <label class="auth-field">
+          <span>Пароль</span>
+          <input type="password" name="password" autocomplete="current-password" required placeholder="••••••••" />
+        </label>
+        <div class="auth-error" data-auth-error hidden></div>
+        <button class="primary-btn full" type="submit">
+          <span>Войти</span>
+          <span class="arrow" aria-hidden="true">↗</span>
+        </button>
+        <p class="auth-switch">
+          Нет аккаунта? <button type="button" class="link-btn" data-auth-tab="register">Зарегистрироваться</button>
+        </p>
+      </form>
+
+      <!-- REGISTER -->
+      <form class="auth-form" id="form-register" hidden novalidate>
+        <p class="auth-intro">Создайте бесплатный аккаунт, чтобы получить доступ.</p>
+        <label class="auth-field">
+          <span>Никнейм</span>
+          <input type="text" name="username" autocomplete="username" required minlength="3" maxlength="24" placeholder="Player1" />
+        </label>
+        <label class="auth-field">
+          <span>Email</span>
+          <input type="email" name="email" autocomplete="email" required placeholder="you@example.com" />
+        </label>
+        <label class="auth-field">
+          <span>Пароль</span>
+          <input type="password" name="password" autocomplete="new-password" required minlength="6" placeholder="не менее 6 символов" />
+        </label>
+        <label class="auth-field">
+          <span>Повторите пароль</span>
+          <input type="password" name="password2" autocomplete="new-password" required minlength="6" />
+        </label>
+        <label class="auth-check">
+          <input type="checkbox" name="agree" required />
+          <span>Согласен с <a href="#" target="_blank" rel="noopener">офертой</a> и <a href="#" target="_blank" rel="noopener">политикой</a></span>
+        </label>
+        <div class="auth-error" data-auth-error hidden></div>
+        <button class="primary-btn full" type="submit">
+          <span>Создать аккаунт</span>
+          <span class="arrow" aria-hidden="true">↗</span>
+        </button>
+        <p class="auth-switch">
+          Уже есть аккаунт? <button type="button" class="link-btn" data-auth-tab="login">Войти</button>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="site-toast" id="site-toast" hidden></div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
