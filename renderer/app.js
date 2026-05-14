@@ -1,3 +1,9 @@
+/* MonoClient launcher renderer.
+ *
+ * Drives the login + launcher screens, talks to the main process through the
+ * `window.launcher` / `window.windowControls` bridges defined in preload.js.
+ */
+
 const $ = (sel) => document.querySelector(sel);
 
 const screens = {
@@ -10,17 +16,10 @@ const els = {
   versionLabel: $('#version-label'),
   versionDropdown: $('#version-dropdown'),
   versionList: $('#version-list'),
-  nickInput: $('#nick-input'),
-  nickRandom: $('#nick-random'),
   playBtn: $('#play-btn'),
-  openFolder: $('#open-folder'),
-  openLogs: $('#open-logs'),
   toast: $('#toast'),
 
   profileUsername: $('#profile-username'),
-  profileRole: $('#profile-role'),
-  profileSubscription: $('#profile-subscription'),
-  profileId: $('#profile-id'),
   btnNotMe: $('#btn-not-me'),
 
   loginForm: $('#login-form'),
@@ -28,21 +27,23 @@ const els = {
   loginPassword: $('#login-password'),
   loginError: $('#login-error'),
   loginSubmit: $('#login-submit'),
+  loginClose: $('#login-close'),
 
-  wcMin: $('#wc-minimize'),
+  wcMin: $('#wc-min'),
   wcClose: $('#wc-close'),
 };
 
 const state = {
   versions: [],
   selectedVersionId: null,
-  nickname: '',
+  username: '',
   profile: null,
 };
 
 let toastTimer = null;
 
 function showToast(message, variant = '') {
+  if (!els.toast) return;
   els.toast.textContent = message;
   els.toast.className = 'toast' + (variant ? ` toast--${variant}` : '');
   els.toast.hidden = false;
@@ -54,6 +55,7 @@ function showToast(message, variant = '') {
 
 function showScreen(name) {
   Object.entries(screens).forEach(([key, el]) => {
+    if (!el) return;
     const visible = key === name;
     el.hidden = !visible;
     el.setAttribute('aria-hidden', String(!visible));
@@ -61,17 +63,8 @@ function showScreen(name) {
 }
 
 function updatePlayBtnState() {
-  const ok = Boolean(state.selectedVersionId) && Boolean(state.nickname.trim());
+  const ok = Boolean(state.selectedVersionId) && Boolean(state.username && state.username.trim());
   els.playBtn.disabled = !ok;
-}
-
-function randomNickname() {
-  const adjectives = ['Mono', 'Fun', 'Neon', 'Nova', 'Shadow', 'Crystal', 'Vortex', 'Lunar'];
-  const nouns = ['Player', 'Strafe', 'Cube', 'Byte', 'Storm', 'Flash', 'Knight', 'Pulse'];
-  const a = adjectives[Math.floor(Math.random() * adjectives.length)];
-  const n = nouns[Math.floor(Math.random() * nouns.length)];
-  const num = Math.floor(Math.random() * 90) + 10;
-  return `${a}${n}${num}`;
 }
 
 function renderVersionList() {
@@ -97,7 +90,9 @@ function selectVersion(id) {
   els.versionLabel.textContent = version.label;
   renderVersionList();
   updatePlayBtnState();
-  window.launcher.store.set('selectedVersion', version.id);
+  if (window.launcher && window.launcher.store) {
+    window.launcher.store.set('selectedVersion', version.id);
+  }
 }
 
 function toggleVersionDropdown(force) {
@@ -107,11 +102,9 @@ function toggleVersionDropdown(force) {
 
 function renderProfile(profile) {
   state.profile = profile;
-  els.profileUsername.textContent = profile.username || 'Player';
-  els.profileRole.textContent = profile.role || 'Пользователь';
-  const days = Number(profile.subscription_days);
-  els.profileSubscription.textContent = Number.isFinite(days) ? `${days} дн.` : '—';
-  els.profileId.textContent = profile.user_id ? String(profile.user_id) : '—';
+  const username = (profile && profile.username) || 'Player';
+  state.username = username;
+  els.profileUsername.textContent = username;
 }
 
 async function refreshProfile() {
@@ -139,23 +132,18 @@ async function refreshProfile() {
 
 async function initLauncher() {
   try {
-    const [versions, savedNick, savedVersion] = await Promise.all([
+    const [versions, savedVersion] = await Promise.all([
       window.launcher.getVersions(),
-      window.launcher.store.get('nickname'),
       window.launcher.store.get('selectedVersion'),
     ]);
     state.versions = Array.isArray(versions) ? versions : [];
     renderVersionList();
 
-    const initialId = savedVersion && state.versions.find((version) => version.id === savedVersion)
+    const initialId = savedVersion && state.versions.find((v) => v.id === savedVersion)
       ? savedVersion
-      : state.versions[0]?.id;
+      : (state.versions[0] && state.versions[0].id);
     if (initialId) selectVersion(initialId);
 
-    if (savedNick) {
-      state.nickname = savedNick;
-      els.nickInput.value = savedNick;
-    }
     updatePlayBtnState();
   } catch (err) {
     showToast('Не удалось получить список версий', 'error');
@@ -179,6 +167,8 @@ async function initSession() {
   }
 }
 
+// --- Event wiring --------------------------------------------------------
+
 els.versionCard.addEventListener('click', () => toggleVersionDropdown());
 
 document.addEventListener('click', (event) => {
@@ -187,26 +177,11 @@ document.addEventListener('click', (event) => {
   }
 });
 
-els.nickInput.addEventListener('input', (event) => {
-  state.nickname = event.target.value;
-  updatePlayBtnState();
-});
-
-els.nickInput.addEventListener('keydown', (event) => {
-  if (event.key === 'Enter') els.playBtn.click();
-});
-
-els.nickRandom.addEventListener('click', () => {
-  const nick = randomNickname();
-  els.nickInput.value = nick;
-  state.nickname = nick;
-  updatePlayBtnState();
-});
-
 els.playBtn.addEventListener('click', async () => {
   if (els.playBtn.disabled) return;
-  if (!state.nickname.trim()) {
-    showToast('Введите никнейм', 'error');
+  const nickname = (state.username || '').trim();
+  if (!nickname) {
+    showToast('Не удалось определить пользователя', 'error');
     return;
   }
   if (!state.selectedVersionId) {
@@ -215,11 +190,12 @@ els.playBtn.addEventListener('click', async () => {
   }
 
   els.playBtn.disabled = true;
-  const originalLabel = els.playBtn.querySelector('.play-label').textContent;
-  els.playBtn.querySelector('.play-label').textContent = 'Запуск…';
+  const labelEl = els.playBtn.querySelector('.play-label');
+  const originalLabel = labelEl ? labelEl.textContent : '';
+  if (labelEl) labelEl.textContent = 'Запуск…';
   try {
-    window.launcher.store.set('nickname', state.nickname.trim());
-    const result = await window.launcher.runGame(state.selectedVersionId, state.nickname.trim());
+    window.launcher.store.set('nickname', nickname);
+    const result = await window.launcher.runGame(state.selectedVersionId, nickname);
     if (result && result.ok === false) {
       showToast(result.error || 'Не удалось запустить игру', 'error');
     } else if (result && result.stub) {
@@ -230,23 +206,16 @@ els.playBtn.addEventListener('click', async () => {
   } catch (err) {
     showToast(err.message || 'Ошибка запуска', 'error');
   } finally {
-    els.playBtn.querySelector('.play-label').textContent = originalLabel;
+    if (labelEl) labelEl.textContent = originalLabel;
     updatePlayBtnState();
   }
-});
-
-els.openFolder.addEventListener('click', () => {
-  window.launcher.openMinecraftFolder();
-});
-
-els.openLogs.addEventListener('click', () => {
-  window.launcher.openLogs();
 });
 
 els.btnNotMe.addEventListener('click', async () => {
   await window.launcher.logout();
   await window.launcher.store.clearProfile();
   state.profile = null;
+  state.username = '';
   showScreen('login');
   showToast('Вы вышли из аккаунта', 'success');
 });
@@ -271,14 +240,9 @@ els.loginForm.addEventListener('submit', async (event) => {
       return;
     }
     renderProfile(result.profile);
-    if (!state.nickname) {
-      state.nickname = result.profile.username || username;
-      els.nickInput.value = state.nickname;
-      window.launcher.store.set('nickname', state.nickname);
-    }
     updatePlayBtnState();
     showScreen('launcher');
-    showToast('Добро пожаловать!', 'success');
+    showToast(`Добро пожаловать, ${state.username}!`, 'success');
   } catch (err) {
     els.loginError.textContent = err.message || 'Ошибка входа';
     els.loginError.hidden = false;
@@ -287,7 +251,8 @@ els.loginForm.addEventListener('submit', async (event) => {
   }
 });
 
-els.wcMin.addEventListener('click', () => window.windowControls.minimize());
-els.wcClose.addEventListener('click', () => window.windowControls.close());
+if (els.wcMin) els.wcMin.addEventListener('click', () => window.windowControls.minimize());
+if (els.wcClose) els.wcClose.addEventListener('click', () => window.windowControls.close());
+if (els.loginClose) els.loginClose.addEventListener('click', () => window.windowControls.close());
 
 initSession();

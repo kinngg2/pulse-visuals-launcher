@@ -4,66 +4,48 @@
     <meta charset="UTF-8" />
     <meta http-equiv="Content-Security-Policy"
           content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; img-src 'self' data:;" />
-    <title>Pulse Visuals</title>
+    <title>MonoClient</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="shell-frame" aria-hidden="true"></div>
-    <header class="titlebar">
-      <div class="brand" aria-label="MonoClient">
-        <span class="brand-mark"></span>
-      </div>
-      <nav class="top-nav" aria-label="Навигация">
-        <button class="nav-button nav-button--active" type="button">Launcher</button>
-        <button class="nav-button" type="button">Funtime.su</button>
-        <button class="nav-button" type="button">Changelog</button>
-      </nav>
-      <div class="title-actions">
-        <button class="lang-btn" type="button" aria-label="Язык интерфейса">RU</button>
-        <button class="theme-btn" type="button" aria-label="Тема">
-          <svg viewBox="0 0 18 18" width="16" height="16" aria-hidden="true">
-            <circle cx="9" cy="9" r="3.2" fill="none" stroke="currentColor" stroke-width="1.4" />
-            <path d="M9 1.2V3M9 15v1.8M1.2 9H3M15 9h1.8M3.4 3.4l1.3 1.3M13.3 13.3l1.3 1.3M14.6 3.4l-1.3 1.3M4.7 13.3l-1.3 1.3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
-          </svg>
-        </button>
-        <div class="window-controls">
-          <button class="wc-btn" id="wc-minimize" title="Свернуть" aria-label="Свернуть">
-            <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true">
-              <line x1="2" y1="6" x2="10" y2="6" stroke="currentColor" stroke-width="1.2" />
-            </svg>
-          </button>
-          <button class="wc-btn" id="wc-close" title="Закрыть" aria-label="Закрыть">
-            <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true">
-              <line x1="2.5" y1="2.5" x2="9.5" y2="9.5" stroke="currentColor" stroke-width="1.2" />
-              <line x1="9.5" y1="2.5" x2="2.5" y2="9.5" stroke="currentColor" stroke-width="1.2" />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </header>
+    <div class="window-grid"></div>
+
+    <header class="drag-strip" aria-hidden="true"></header>
 
     <main class="app">
-      <section class="auth-layout screen" id="screen-login" aria-hidden="false">
-        <section class="auth-card" aria-labelledby="login-title">
-          <div class="card-topline">
-            <span class="brand-mark brand-mark--small"></span>
-            <div class="card-toolbar">
-              <button class="toolbar-btn" type="button">RU</button>
-              <button class="toolbar-btn toolbar-btn--icon" type="button" aria-label="Сменить тему">
-                <svg viewBox="0 0 18 18" width="14" height="14" aria-hidden="true">
-                  <circle cx="9" cy="9" r="2.8" fill="none" stroke="currentColor" stroke-width="1.4" />
-                  <path d="M9 1.5V3M9 15v1.5M1.5 9H3M15 9h1.5M3.6 3.6l1.1 1.1M13.3 13.3l1.1 1.1M14.4 3.6l-1.1 1.1M4.7 13.3l-1.1 1.1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
-                </svg>
-              </button>
-            </div>
+      <!-- ============================ LOGIN ============================ -->
+      <section class="screen screen--login" id="screen-login" aria-hidden="false">
+        <article class="login-card" aria-labelledby="login-title">
+          <header class="card-header card-header--login">
+            <span class="brand-mark" aria-hidden="true"></span>
+            <div class="card-header__spacer"></div>
+            <button class="pill-btn" type="button" aria-label="Язык">
+              <svg viewBox="0 0 18 18" width="13" height="13" aria-hidden="true">
+                <path d="M3 9h12M9 3v12M5 5.4c1.1 4.6 6.9 4.6 8 0M5 12.6c1.1-4.6 6.9-4.6 8 0" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+              </svg>
+              <span>RU</span>
+              <svg viewBox="0 0 10 10" width="8" height="8" aria-hidden="true"><path d="M2 3.6 5 6.5 8 3.6" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="icon-btn" type="button" aria-label="Тема">
+              <svg viewBox="0 0 18 18" width="14" height="14" aria-hidden="true">
+                <circle cx="9" cy="9" r="3.2" fill="none" stroke="currentColor" stroke-width="1.4"/>
+                <path d="M9 1.4V3M9 15v1.6M1.4 9H3M15 9h1.6M3.6 3.6l1.1 1.1M13.3 13.3l1.1 1.1M14.4 3.6l-1.1 1.1M4.7 13.3l-1.1 1.1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              </svg>
+            </button>
+            <button class="icon-btn icon-btn--close" id="login-close" type="button" aria-label="Закрыть">
+              <svg viewBox="0 0 12 12" width="10" height="10" aria-hidden="true">
+                <path d="M3 3 L9 9 M9 3 L3 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </header>
+
+          <div class="login-hero">
+            <span class="brand-mark brand-mark--lg" aria-hidden="true"></span>
+            <h1 id="login-title">MonoClient</h1>
+            <p>Войдите в свой аккаунт, чтобы запустить лаунчер.</p>
           </div>
 
-          <div class="auth-copy">
-            <h1 id="login-title">С возвращением в <span>MonoClient</span></h1>
-            <p>Войдите в свой аккаунт для доступа к лаунчеру Funtime.su.</p>
-          </div>
-
-          <form class="login-form" id="login-form">
+          <form class="login-form" id="login-form" novalidate>
             <label class="field">
               <span>Логин</span>
               <input class="field-input" id="login-username" type="text" autocomplete="username" spellcheck="false" placeholder="Введите логин" />
@@ -73,136 +55,265 @@
               <input class="field-input" id="login-password" type="password" autocomplete="current-password" placeholder="Введите пароль" />
             </label>
             <div class="login-error" id="login-error" hidden></div>
-            <button class="primary-btn" id="login-submit" type="submit">Войти</button>
+            <button class="primary-btn" id="login-submit" type="submit">
+              <span>Войти</span>
+            </button>
           </form>
 
           <p class="auth-footnote">Тестовый вход: <strong>test</strong> / <strong>test</strong></p>
-        </section>
-
-        <aside class="promo-panel" aria-label="Информация о MonoClient">
-          <article class="news-card news-card--hero">
-            <div class="news-meta">MonoClient • Funtime.su</div>
-            <h2>Доминируй на каждом сервере</h2>
-            <p>Лаунчер для MonoClient с быстрым стартом, выбором версии и аккуратным тёмным UI.</p>
-          </article>
-          <article class="preview-card">
-            <div class="preview-toolbar">
-              <span></span><span></span><span></span><span></span><span></span>
-            </div>
-            <div class="module-grid">
-              <div class="module-card module-card--wide">
-                <div class="module-head"><span>Killaura</span><strong>None</strong></div>
-                <div class="module-line"></div>
-                <div class="module-line module-line--short"></div>
-                <div class="color-dots"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-              </div>
-              <div class="module-card">
-                <div class="module-head"><span>Module name</span><strong>None</strong></div>
-                <div class="module-line"></div>
-                <div class="module-line module-line--short"></div>
-              </div>
-              <div class="module-card module-card--wide">
-                <div class="module-head"><span>Bind</span><strong>L. SHIFT + W</strong></div>
-                <div class="module-line"></div>
-                <div class="slider"><b></b></div>
-              </div>
-            </div>
-          </article>
-        </aside>
+        </article>
       </section>
 
-      <section class="launcher-layout screen" id="screen-launcher" aria-hidden="true" hidden>
-        <aside class="launcher-card">
-          <div class="launcher-toolbar">
-            <span class="brand-mark brand-mark--small"></span>
-            <div class="account-pill">
-              <span class="avatar-dot"></span>
-              <span id="profile-username">Player</span>
+      <!-- ============================ LAUNCHER ============================ -->
+      <section class="screen screen--launcher" id="screen-launcher" aria-hidden="true" hidden>
+        <!-- LEFT: launcher card -->
+        <aside class="launcher-card" aria-label="Лаунчер">
+          <header class="card-header">
+            <span class="brand-mark" aria-hidden="true"></span>
+            <button class="pill-btn" type="button" aria-label="Язык">
+              <svg viewBox="0 0 18 18" width="13" height="13" aria-hidden="true">
+                <path d="M3 9h12M9 3v12M5 5.4c1.1 4.6 6.9 4.6 8 0M5 12.6c1.1-4.6 6.9-4.6 8 0" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+              </svg>
+              <span>RU</span>
+              <svg viewBox="0 0 10 10" width="8" height="8" aria-hidden="true"><path d="M2 3.6 5 6.5 8 3.6" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="user-pill" id="user-pill" title="Вы вошли как">
+              <span class="user-pill__dot" aria-hidden="true"></span>
+              <span class="user-pill__name" id="profile-username">Player</span>
             </div>
-            <button class="round-btn" id="btn-not-me" type="button" title="Выйти" aria-label="Выйти">
-              <svg viewBox="0 0 18 18" width="14" height="14" aria-hidden="true">
-                <path d="M7.2 3.2H4.4A1.4 1.4 0 0 0 3 4.6v8.8a1.4 1.4 0 0 0 1.4 1.4h2.8M10.2 5.4 13.8 9l-3.6 3.6M13.5 9H6.8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+            <button class="icon-btn" id="btn-not-me" type="button" aria-label="Выйти из аккаунта" title="Выйти">
+              <svg viewBox="0 0 18 18" width="13" height="13" aria-hidden="true">
+                <circle cx="9" cy="9" r="6.4" fill="none" stroke="currentColor" stroke-width="1.3"/>
+                <circle cx="9" cy="9" r="2.1" fill="none" stroke="currentColor" stroke-width="1.3"/>
               </svg>
             </button>
+          </header>
+
+          <div class="brand-block">
+            <h1 class="brand-title">MonoClient</h1>
+            <p class="brand-version">v<span id="client-version">4.1.6</span></p>
           </div>
 
-          <div class="product-block">
-            <h1>MonoClient</h1>
-            <p>v<span id="client-version">4.1.6</span></p>
-          </div>
+          <div class="launcher-actions">
+            <button class="primary-btn launch-btn" id="play-btn" type="button" disabled>
+              <svg viewBox="0 0 18 18" width="14" height="14" aria-hidden="true">
+                <path d="M5.5 3.6v10.8L14.4 9 5.5 3.6Z" fill="currentColor"/>
+              </svg>
+              <span class="play-label">Запустить</span>
+            </button>
 
-          <button class="primary-btn launch-btn" id="play-btn" type="button" disabled>
-            <svg viewBox="0 0 18 18" width="16" height="16" aria-hidden="true">
-              <path d="M6 4.2v9.6L13.8 9 6 4.2Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
-            </svg>
-            <span class="play-label">Запустить</span>
-          </button>
-
-          <button class="select-btn" id="version-card" type="button">
-            <svg viewBox="0 0 18 18" width="16" height="16" aria-hidden="true">
-              <path d="M3 5.2 9 2l6 3.2-6 3.2L3 5.2Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" />
-              <path d="M3 8.3 9 11.5l6-3.2M3 11.5 9 14.8l6-3.3" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-            <span id="version-label">Выбрать версию</span>
-          </button>
-          <div class="version-dropdown" id="version-dropdown" hidden>
-            <ul id="version-list" role="listbox"></ul>
-          </div>
-
-          <label class="field nick-field">
-            <span>Никнейм</span>
-            <div class="nick-combo">
-              <input class="field-input" id="nick-input" type="text" placeholder="Ник для запуска" maxlength="16" autocomplete="off" spellcheck="false" />
-              <button class="round-btn" id="nick-random" type="button" title="Случайный ник" aria-label="Случайный ник">
-                <svg viewBox="0 0 18 18" width="14" height="14" aria-hidden="true">
-                  <path d="M3 5h2.2c1.7 0 2.5 8 4.2 8H15M12.5 2.8 15 5.1l-2.5 2.3M3 13h2.2c.7 0 1.3-1.3 1.8-2.8M12.5 10.7 15 13l-2.5 2.3" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </button>
+            <button class="select-btn" id="version-card" type="button">
+              <svg viewBox="0 0 18 18" width="14" height="14" aria-hidden="true">
+                <path d="M3 5.4 9 2l6 3.4-6 3.4-6-3.4Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+                <path d="M3 8.6 9 12l6-3.4M3 11.8 9 15.2l6-3.4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span id="version-label">Выбрать версию</span>
+            </button>
+            <div class="version-dropdown" id="version-dropdown" hidden>
+              <ul id="version-list" role="listbox"></ul>
             </div>
-          </label>
+          </div>
 
           <div class="version-meta">
+            <svg viewBox="0 0 18 18" width="11" height="11" aria-hidden="true">
+              <circle cx="5" cy="4.4" r="1.6" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <circle cx="5" cy="13.6" r="1.6" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <circle cx="13" cy="9" r="1.6" fill="none" stroke="currentColor" stroke-width="1.3"/>
+              <path d="M5 6v6M5 9c0-1.6 1.3-3 3-3h2.5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            </svg>
             <span>4.0</span>
-            <b>/</b>
+            <em>/</em>
             <strong>Release</strong>
-            <b>/</b>
+            <em>/</em>
             <span>1.21.4</span>
           </div>
 
           <footer class="client-footer">
-            <div>
-              <span class="brand-mark brand-mark--tiny"></span>
+            <div class="client-footer__brand">
+              <span class="brand-mark brand-mark--tiny" aria-hidden="true"></span>
               <strong>MonoClient</strong>
             </div>
-            <span>Funtime.su</span>
+            <div class="client-footer__dates">
+              <div class="date-chip">
+                <svg viewBox="0 0 14 14" width="10" height="10" aria-hidden="true">
+                  <circle cx="7" cy="7" r="5.2" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                  <path d="M7 4.4V7l1.8 1.2" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+                </svg>
+                <span id="date-created">21.08.2024</span>
+              </div>
+              <div class="date-chip">
+                <svg viewBox="0 0 14 14" width="10" height="10" aria-hidden="true">
+                  <rect x="2.4" y="3.2" width="9.2" height="8.4" rx="1.4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                  <path d="M5.2 2.2v2M8.8 2.2v2M2.6 5.8h8.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                </svg>
+                <span id="date-updated">23.08.2025</span>
+              </div>
+            </div>
           </footer>
         </aside>
 
-        <section class="content-panel">
-          <article class="release-card">
-            <p class="eyebrow">Релиз v4.0!</p>
-            <h2>Новый интерфейс лаунчера</h2>
-            <p>Тёмная тема, быстрый запуск, профиль игрока и аккуратный выбор версии для клиента.</p>
-          </article>
-          <div class="stats-row">
-            <div class="stat-card"><span>Роль</span><strong id="profile-role">Пользователь</strong></div>
-            <div class="stat-card"><span>Подписка</span><strong id="profile-subscription">—</strong></div>
-            <div class="stat-card"><span>ID</span><strong id="profile-id">—</strong></div>
-          </div>
-          <div class="action-grid">
-            <button class="utility-card" id="open-folder" type="button">
-              <span>Папка игры</span>
-              <small>Открыть .minecraft</small>
+        <!-- RIGHT: news / preview card -->
+        <section class="news-card" aria-label="Новости">
+          <header class="news-header">
+            <span class="news-drag" aria-hidden="true"></span>
+            <h2>Релиз v4.0!</h2>
+            <span class="news-tag">Ченджлог</span>
+            <div class="news-header__spacer"></div>
+            <button class="pill-btn" type="button" aria-label="Язык">
+              <svg viewBox="0 0 18 18" width="13" height="13" aria-hidden="true">
+                <path d="M3 9h12M9 3v12M5 5.4c1.1 4.6 6.9 4.6 8 0M5 12.6c1.1-4.6 6.9-4.6 8 0" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+              </svg>
+              <span>RU</span>
+              <svg viewBox="0 0 10 10" width="8" height="8" aria-hidden="true"><path d="M2 3.6 5 6.5 8 3.6" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
-            <button class="utility-card" id="open-logs" type="button">
-              <span>Логи</span>
-              <small>Проверить запуск</small>
+            <button class="icon-btn" type="button" aria-label="Тема">
+              <svg viewBox="0 0 18 18" width="13" height="13" aria-hidden="true">
+                <circle cx="9" cy="9" r="3" fill="none" stroke="currentColor" stroke-width="1.3"/>
+                <path d="M9 1.6V3M9 15v1.4M1.6 9H3M15 9h1.4M3.6 3.6l1 1M13.4 13.4l1 1M14.4 3.6l-1 1M4.6 13.4l-1 1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              </svg>
             </button>
+            <button class="icon-btn icon-btn--close" id="wc-close" type="button" aria-label="Закрыть">
+              <svg viewBox="0 0 12 12" width="10" height="10" aria-hidden="true">
+                <path d="M3 3 L9 9 M9 3 L3 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              </svg>
+            </button>
+            <button class="icon-btn icon-btn--min" id="wc-min" type="button" aria-label="Свернуть">
+              <svg viewBox="0 0 12 12" width="10" height="10" aria-hidden="true">
+                <path d="M3 6.5h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </header>
+
+          <p class="news-body">Крупное обновление с новыми байпасами, улучшенной килл-аурой и переработанным UI. Подробнее в ченджлоге.</p>
+
+          <div class="preview-pane" aria-hidden="true">
+            <div class="preview-toolbar">
+              <span class="preview-brand"></span>
+              <span class="preview-dot"></span>
+              <span class="preview-dot"></span>
+              <span class="preview-dot"></span>
+              <span class="preview-dot"></span>
+            </div>
+
+            <div class="preview-columns">
+              <div class="preview-col">
+                <div class="module-card module-card--featured">
+                  <div class="module-card__top">
+                    <span class="module-card__title">
+                      <svg viewBox="0 0 14 14" width="10" height="10" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+                      Killaura
+                    </span>
+                    <span class="module-card__pin">★ None</span>
+                    <span class="module-card__switch module-card__switch--on"><i></i></span>
+                  </div>
+                  <div class="module-card__row">
+                    <div class="module-card__label">Название настройки</div>
+                    <div class="module-card__desc">Полезное описание настройки</div>
+                  </div>
+                  <div class="module-card__pillrow">
+                    <span class="pill pill--mute">None</span>
+                    <span class="pill pill--group">Open Group <i class="pill__check"></i></span>
+                  </div>
+                  <div class="module-card__row">
+                    <div class="module-card__label">Название пикера</div>
+                  </div>
+                  <div class="module-card__colors">
+                    <span class="dot dot--brand"></span>
+                    <span class="dot" style="background:#ffd166"></span>
+                    <span class="dot" style="background:#ef476f"></span>
+                    <span class="dot" style="background:#7770ff"></span>
+                    <span class="dot" style="background:#06d6a0"></span>
+                    <span class="dot" style="background:#4cc9f0"></span>
+                    <span class="dot" style="background:#b5179e"></span>
+                    <span class="dot-text">#FDC96A</span>
+                  </div>
+                  <div class="module-card__row">
+                    <div class="module-card__label">Название бинда</div>
+                    <div class="module-card__desc">Полезное описание настройки</div>
+                  </div>
+                  <div class="module-card__pillrow"><span class="pill pill--mute">None</span></div>
+                  <div class="module-card__row">
+                    <div class="module-card__label">Название бинда</div>
+                    <div class="module-card__desc">Полезное описание настройки</div>
+                  </div>
+                  <div class="module-card__pillrow"><span class="pill pill--mute">None</span></div>
+                  <div class="module-card__row">
+                    <div class="module-card__label">Название полузнка<span class="module-card__unit">12 юнитов</span></div>
+                    <div class="module-card__desc">Полезное описание настройки</div>
+                  </div>
+                  <div class="module-card__slider"><b></b></div>
+                </div>
+              </div>
+
+              <div class="preview-col">
+                <div class="module-card">
+                  <div class="module-card__top">
+                    <span class="module-card__title">
+                      <svg viewBox="0 0 14 14" width="10" height="10" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+                      Module name
+                    </span>
+                    <span class="module-card__pin">★ None</span>
+                  </div>
+                  <div class="module-card__row">
+                    <div class="module-card__label">Название настройки</div>
+                    <div class="module-card__desc">Полезное описание настройки</div>
+                  </div>
+                </div>
+
+                <div class="module-card">
+                  <div class="module-card__top">
+                    <span class="module-card__title">
+                      <svg viewBox="0 0 14 14" width="10" height="10" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+                      Killaura
+                    </span>
+                    <span class="module-card__bind">L. SHIFT + B</span>
+                  </div>
+                  <div class="module-card__row">
+                    <div class="module-card__label">Название бинда</div>
+                    <div class="module-card__desc">Полезное описание настройки</div>
+                  </div>
+                  <div class="module-card__pillrow"><span class="pill pill--mute">L. SHIFT + W</span></div>
+                  <div class="module-card__row">
+                    <div class="module-card__label">Название енума</div>
+                    <div class="module-card__desc">Полезное описание настройки</div>
+                  </div>
+                  <div class="module-card__pillrow"><span class="pill pill--mute">ReallyWorld, Funtime Snap, Speak…</span></div>
+                </div>
+
+                <div class="module-card">
+                  <div class="module-card__top">
+                    <span class="module-card__title">
+                      <svg viewBox="0 0 14 14" width="10" height="10" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+                      Killaura
+                    </span>
+                    <span class="module-card__bind">L. SHIFT + B</span>
+                  </div>
+                  <div class="module-card__row">
+                    <div class="module-card__label">Название настройки</div>
+                    <div class="module-card__desc">Полезное описание настройки</div>
+                  </div>
+                  <div class="module-card__pillrow">
+                    <span class="pill pill--mute">None</span>
+                    <span class="pill pill--group">Open Group</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+
           <div class="toast" id="toast" hidden></div>
         </section>
       </section>
     </main>
+
+    <button class="hidden-trigger" id="open-folder" type="button" hidden aria-hidden="true"></button>
+    <button class="hidden-trigger" id="open-logs" type="button" hidden aria-hidden="true"></button>
+    <input id="nick-input" type="hidden" />
+    <button id="nick-random" type="button" hidden aria-hidden="true"></button>
+    <span id="profile-role" hidden></span>
+    <span id="profile-subscription" hidden></span>
+    <span id="profile-id" hidden></span>
+
     <script src="app.js"></script>
   </body>
 </html>
