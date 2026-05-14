@@ -1,6 +1,6 @@
 {
   "name": "monoclient-launcher",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "MonoClient — Minecraft launcher for Funtime.su (Electron + WebView)",
   "main": "main.js",
   "author": "MonoClient",
