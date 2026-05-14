@@ -8,6 +8,7 @@ const screens = {
 const els = {
   versionCard: $('#version-card'),
   versionLabel: $('#version-label'),
+  versionMetaGame: $('#version-meta-game'),
   versionDropdown: $('#version-dropdown'),
   versionList: $('#version-list'),
   nickInput: $('#nick-input'),
@@ -90,11 +91,17 @@ function renderVersionList() {
   });
 }
 
+function getVersionGameLabel(version) {
+  const match = version.label.match(/\d+\.\d+(?:\.\d+)?/);
+  return match ? match[0] : version.label;
+}
+
 function selectVersion(id) {
   const version = state.versions.find((item) => item.id === id);
   if (!version) return;
   state.selectedVersionId = version.id;
   els.versionLabel.textContent = version.label;
+  els.versionMetaGame.textContent = getVersionGameLabel(version);
   renderVersionList();
   updatePlayBtnState();
   window.launcher.store.set('selectedVersion', version.id);
