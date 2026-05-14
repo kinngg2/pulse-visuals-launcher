@@ -1,6 +1,6 @@
 {
   "name": "monoclient-launcher",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "MonoClient — Minecraft launcher for Funtime.su (Electron + WebView)",
   "main": "main.js",
   "author": "MonoClient",
@@ -32,12 +32,14 @@
       "preload.js",
       "src/**/*",
       "renderer/**/*",
+      "assets/**/*",
       "package.json"
     ],
     "directories": {
       "output": "dist"
     },
     "win": {
+      "icon": "assets/icon.ico",
       "target": [
         {
           "target": "nsis",
@@ -48,6 +50,7 @@
       ]
     },
     "mac": {
+      "icon": "assets/icon-512.png",
       "target": [
         {
           "target": "dmg",
@@ -60,6 +63,7 @@
       "category": "public.app-category.games"
     },
     "linux": {
+      "icon": "assets/icon-512.png",
       "target": [
         "AppImage"
       ],

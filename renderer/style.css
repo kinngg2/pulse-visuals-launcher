@@ -212,23 +212,20 @@ button, input {
 .card-header__spacer,
 .news-header__spacer { flex: 1 1 auto; }
 
-/* Brand diamond */
+/* Brand mark (SVG) */
 .brand-mark {
   display: inline-block;
   flex: 0 0 auto;
-  width: 16px;
-  height: 16px;
-  border: 1.8px solid var(--accent-2);
-  border-radius: 4px;
-  transform: rotate(45deg);
-  background: linear-gradient(135deg, rgba(140, 134, 255, 0.18), rgba(140, 134, 255, 0.02));
-  box-shadow: 0 0 16px rgba(140, 134, 255, 0.45);
+  width: 22px;
+  height: 22px;
+  background: url('./assets/icon.svg') center / contain no-repeat;
+  filter: drop-shadow(0 0 8px rgba(140, 134, 255, 0.55));
 }
 
-.brand-mark--tiny { width: 12px; height: 12px; border-width: 1.6px; }
+.brand-mark--tiny { width: 14px; height: 14px; filter: drop-shadow(0 0 4px rgba(140, 134, 255, 0.5)); }
 .brand-mark--lg {
-  width: 26px; height: 26px; border-width: 2.2px; border-radius: 6px;
-  box-shadow: 0 0 24px rgba(140, 134, 255, 0.55);
+  width: 56px; height: 56px;
+  filter: drop-shadow(0 0 22px rgba(140, 134, 255, 0.55));
 }
 
 /* Pill button (e.g. RU dropdown) */
