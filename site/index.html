@@ -29,15 +29,39 @@
         <a class="nav-link" href="#pricing">Цены</a>
         <a class="nav-link" href="#support">Поддержка</a>
       </div>
-      <div class="nav-actions">
-        <button class="pill-btn" type="button" aria-label="Язык">
-          <span class="lang-icon" aria-hidden="true"></span>
-          <span>RU</span>
-        </button>
-        <a class="primary-btn nav-cta" href="#download">
-          <span>Скачать</span>
-          <span class="arrow" aria-hidden="true">↗</span>
-        </a>
+      <div class="nav-actions" id="nav-actions">
+        <!-- when logged out -->
+        <div class="nav-auth" id="nav-auth-out">
+          <button class="ghost-btn nav-ghost" type="button" data-auth-open="login">Войти</button>
+          <button class="primary-btn nav-cta" type="button" data-auth-open="register">
+            <span>Регистрация</span>
+            <span class="arrow" aria-hidden="true">↗</span>
+          </button>
+        </div>
+        <!-- when logged in -->
+        <div class="nav-auth" id="nav-auth-in" hidden>
+          <button class="user-pill nav-user" type="button" id="nav-user-pill" aria-haspopup="true" aria-expanded="false">
+            <span class="user-avatar" id="nav-user-avatar" aria-hidden="true"></span>
+            <span class="user-name" id="nav-user-name">Player</span>
+            <span class="user-role-badge" id="nav-user-role">User</span>
+            <span class="chev" aria-hidden="true">˅</span>
+          </button>
+          <div class="user-menu" id="nav-user-menu" hidden role="menu">
+            <a class="user-menu__item" href="./profile.html" role="menuitem">
+              <span class="user-menu__ico" aria-hidden="true">👤</span>Мой профиль
+            </a>
+            <a class="user-menu__item" href="./profile.html#subs" role="menuitem">
+              <span class="user-menu__ico" aria-hidden="true">💳</span>Моя подписка
+            </a>
+            <a class="user-menu__item" href="./profile.html#configs" role="menuitem">
+              <span class="user-menu__ico" aria-hidden="true">☁️</span>Конфиги
+            </a>
+            <hr class="user-menu__sep" />
+            <button class="user-menu__item user-menu__item--danger" id="nav-logout" type="button" role="menuitem">
+              <span class="user-menu__ico" aria-hidden="true">↪</span>Выйти
+            </button>
+          </div>
+        </div>
       </div>
     </nav>
   </header>
@@ -59,7 +83,7 @@
           функционалом. Создан для тех, кто играет всерьёз.
         </p>
         <div class="hero-actions">
-          <a class="primary-btn hero-cta" href="#download">
+          <a class="primary-btn hero-cta" href="https://github.com/kinngg2/pulse-visuals-launcher/releases/latest" data-gated-action="download">
             <span>Скачать клиент</span>
             <span class="arrow" aria-hidden="true">↗</span>
           </a>
@@ -238,7 +262,7 @@
               Делитесь конфигурациями с другими игроками, заимствуйте чужие
               билды. Самая удобная система конфигов в MonoClient.
             </p>
-            <a class="ghost-btn" href="#download">Попробовать</a>
+            <button class="ghost-btn" type="button" data-auth-open="register">Попробовать</button>
           </div>
           <div class="cloud-image" aria-hidden="true">
             <div class="cloud-card">
@@ -353,7 +377,7 @@
               <li>Все обновления</li>
               <li>Поддержка 24/7</li>
             </ul>
-            <a class="ghost-btn full" href="#download">Выбрать</a>
+            <button class="ghost-btn full" type="button" data-gated-action="buy" data-plan="7" data-price="249">Выбрать</button>
           </article>
           <article class="price-card price-card--popular">
             <div class="price-badge">Популярный</div>
@@ -368,10 +392,10 @@
               <li>Поддержка 24/7</li>
               <li>Облачные конфиги</li>
             </ul>
-            <a class="primary-btn full" href="#download">
+            <button class="primary-btn full" type="button" data-gated-action="buy" data-plan="30" data-price="429">
               <span>Выбрать</span>
               <span class="arrow" aria-hidden="true">↗</span>
-            </a>
+            </button>
           </article>
           <article class="price-card">
             <div class="price-tag">90 дней</div>
@@ -385,7 +409,7 @@
               <li>Поддержка 24/7</li>
               <li>+1 месяц в подарок</li>
             </ul>
-            <a class="ghost-btn full" href="#download">Выбрать</a>
+            <button class="ghost-btn full" type="button" data-gated-action="buy" data-plan="90" data-price="999">Выбрать</button>
           </article>
           <article class="price-card">
             <div class="price-tag">180 дней</div>
@@ -399,7 +423,7 @@
               <li>Поддержка 24/7</li>
               <li>+2 месяца в подарок</li>
             </ul>
-            <a class="ghost-btn full" href="#download">Выбрать</a>
+            <button class="ghost-btn full" type="button" data-gated-action="buy" data-plan="180" data-price="1499">Выбрать</button>
           </article>
         </div>
       </div>
@@ -420,6 +444,7 @@
             <a
               class="primary-btn big"
               href="https://github.com/kinngg2/pulse-visuals-launcher/releases/latest"
+              data-gated-action="download"
             >
               <span>Скачать .exe</span>
               <span class="arrow" aria-hidden="true">↗</span>
@@ -451,7 +476,7 @@
       <div class="footer-cols">
         <div class="footer-col">
           <div class="footer-col-title">Продукт</div>
-          <a href="https://github.com/kinngg2/pulse-visuals-launcher/releases/latest">Скачать</a>
+          <a href="https://github.com/kinngg2/pulse-visuals-launcher/releases/latest" data-gated-action="download">Скачать</a>
           <a href="#pricing">Купить</a>
           <a href="#support">Поддержка</a>
         </div>
@@ -475,5 +500,80 @@
       <span>made with care by MonoClient team</span>
     </div>
   </footer>
+
+  <!-- ===================== AUTH MODAL ===================== -->
+  <div class="modal" id="auth-modal" hidden role="dialog" aria-modal="true" aria-labelledby="auth-title">
+    <div class="modal-backdrop" data-modal-close></div>
+    <div class="modal-card">
+      <button class="modal-close" type="button" aria-label="Закрыть" data-modal-close>×</button>
+      <div class="modal-brand">
+        <span class="diamond" aria-hidden="true"></span>
+        <h2 id="auth-title">MonoClient</h2>
+      </div>
+      <div class="auth-tabs" role="tablist">
+        <button class="auth-tab is-active" type="button" data-auth-tab="login" role="tab" aria-selected="true">Вход</button>
+        <button class="auth-tab" type="button" data-auth-tab="register" role="tab" aria-selected="false">Регистрация</button>
+      </div>
+
+      <!-- LOGIN -->
+      <form class="auth-form" id="form-login" novalidate>
+        <p class="auth-intro">Войдите, чтобы скачать клиент или купить подписку.</p>
+        <label class="auth-field">
+          <span>Логин или email</span>
+          <input type="text" name="identifier" autocomplete="username" required placeholder="player1 или you@example.com" />
+        </label>
+        <label class="auth-field">
+          <span>Пароль</span>
+          <input type="password" name="password" autocomplete="current-password" required placeholder="••••••••" />
+        </label>
+        <div class="auth-error" data-auth-error hidden></div>
+        <button class="primary-btn full" type="submit">
+          <span>Войти</span>
+          <span class="arrow" aria-hidden="true">↗</span>
+        </button>
+        <p class="auth-switch">
+          Нет аккаунта? <button type="button" class="link-btn" data-auth-tab="register">Зарегистрироваться</button>
+        </p>
+      </form>
+
+      <!-- REGISTER -->
+      <form class="auth-form" id="form-register" hidden novalidate>
+        <p class="auth-intro">Создайте бесплатный аккаунт, чтобы получить доступ.</p>
+        <label class="auth-field">
+          <span>Никнейм</span>
+          <input type="text" name="username" autocomplete="username" required minlength="3" maxlength="24" placeholder="Player1" />
+        </label>
+        <label class="auth-field">
+          <span>Email</span>
+          <input type="email" name="email" autocomplete="email" required placeholder="you@example.com" />
+        </label>
+        <label class="auth-field">
+          <span>Пароль</span>
+          <input type="password" name="password" autocomplete="new-password" required minlength="6" placeholder="не менее 6 символов" />
+        </label>
+        <label class="auth-field">
+          <span>Повторите пароль</span>
+          <input type="password" name="password2" autocomplete="new-password" required minlength="6" />
+        </label>
+        <label class="auth-check">
+          <input type="checkbox" name="agree" required />
+          <span>Согласен с <a href="#" target="_blank" rel="noopener">офертой</a> и <a href="#" target="_blank" rel="noopener">политикой</a></span>
+        </label>
+        <div class="auth-error" data-auth-error hidden></div>
+        <button class="primary-btn full" type="submit">
+          <span>Создать аккаунт</span>
+          <span class="arrow" aria-hidden="true">↗</span>
+        </button>
+        <p class="auth-switch">
+          Уже есть аккаунт? <button type="button" class="link-btn" data-auth-tab="login">Войти</button>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="site-toast" id="site-toast" hidden></div>
+
+  <script src="./app.js"></script>
 </body>
 </html>

@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>MonoClient — Профиль</title>
+  <meta name="description" content="Ваш профиль MonoClient: подписки, конфиги, безопасность." />
+  <meta name="theme-color" content="#07070b" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body class="profile-page">
+  <div class="page-glow" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <nav class="nav">
+      <a class="nav-brand" href="./index.html">
+        <span class="diamond" aria-hidden="true"></span>
+        <span class="nav-brand-text">MonoClient</span>
+      </a>
+      <div class="nav-links">
+        <a class="nav-link" href="./index.html#features">Возможности</a>
+        <a class="nav-link" href="./index.html#preview">Превью</a>
+        <a class="nav-link" href="./index.html#pricing">Цены</a>
+        <a class="nav-link" href="./index.html#support">Поддержка</a>
+      </div>
+      <div class="nav-actions" id="nav-actions">
+        <div class="nav-auth" id="nav-auth-out">
+          <button class="ghost-btn nav-ghost" type="button" data-auth-open="login">Войти</button>
+          <button class="primary-btn nav-cta" type="button" data-auth-open="register">
+            <span>Регистрация</span>
+            <span class="arrow" aria-hidden="true">↗</span>
+          </button>
+        </div>
+        <div class="nav-auth" id="nav-auth-in" hidden>
+          <button class="user-pill nav-user" type="button" id="nav-user-pill" aria-haspopup="true" aria-expanded="false">
+            <span class="user-avatar" id="nav-user-avatar" aria-hidden="true"></span>
+            <span class="user-name" id="nav-user-name">Player</span>
+            <span class="user-role-badge" id="nav-user-role">User</span>
+            <span class="chev" aria-hidden="true">˅</span>
+          </button>
+          <div class="user-menu" id="nav-user-menu" hidden role="menu">
+            <a class="user-menu__item" href="./profile.html" role="menuitem">
+              <span class="user-menu__ico" aria-hidden="true">👤</span>Мой профиль
+            </a>
+            <a class="user-menu__item" href="./profile.html#subs" role="menuitem">
+              <span class="user-menu__ico" aria-hidden="true">💳</span>Моя подписка
+            </a>
+            <a class="user-menu__item" href="./profile.html#configs" role="menuitem">
+              <span class="user-menu__ico" aria-hidden="true">☁️</span>Конфиги
+            </a>
+            <hr class="user-menu__sep" />
+            <button class="user-menu__item user-menu__item--danger" id="nav-logout" type="button" role="menuitem">
+              <span class="user-menu__ico" aria-hidden="true">↪</span>Выйти
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="profile-main">
+    <!-- Logged-out state -->
+    <section class="container profile-guard" id="profile-guard" hidden>
+      <div class="profile-guard__card">
+        <div class="profile-guard__title">Профиль доступен после входа</div>
+        <p class="profile-guard__sub">Войдите или создайте аккаунт, чтобы открыть свою страницу.</p>
+        <div class="profile-guard__actions">
+          <button class="primary-btn" type="button" data-auth-open="login">
+            <span>Войти</span><span class="arrow" aria-hidden="true">↗</span>
+          </button>
+          <button class="ghost-btn" type="button" data-auth-open="register">Регистрация</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Logged-in state -->
+    <section class="container profile-shell" id="profile-shell" hidden>
+      <!-- Hero -->
+      <div class="profile-hero">
+        <div class="profile-hero__bg" aria-hidden="true"></div>
+        <div class="profile-hero__row">
+          <div class="profile-avatar" id="profile-avatar" aria-hidden="true"></div>
+          <div class="profile-hero__info">
+            <div class="profile-name-row">
+              <h1 class="profile-name" id="profile-name">Player</h1>
+              <span class="profile-role" id="profile-role">User</span>
+            </div>
+            <div class="profile-meta">
+              <span class="profile-meta__item">
+                <span class="profile-meta__ico">@</span>
+                <span id="profile-email">player@monoclient.su</span>
+              </span>
+              <span class="profile-meta__sep">·</span>
+              <span class="profile-meta__item">
+                <span class="profile-meta__ico">📅</span>
+                с <span id="profile-since">—</span>
+              </span>
+              <span class="profile-meta__sep" id="profile-meta-sep-sub" hidden>·</span>
+              <span class="profile-meta__item" id="profile-sub-pill" hidden>
+                <span class="profile-meta__ico">⭐</span>
+                <span id="profile-sub-pill-label">Premium</span>
+              </span>
+            </div>
+          </div>
+          <div class="profile-hero__cta">
+            <a class="ghost-btn" href="./index.html#pricing">Продлить</a>
+          </div>
+        </div>
+        <!-- Stats -->
+        <div class="profile-stats">
+          <div class="profile-stat">
+            <div class="profile-stat__label">Подписка</div>
+            <div class="profile-stat__value" id="stat-sub">—</div>
+          </div>
+          <div class="profile-stat">
+            <div class="profile-stat__label">Конфиги</div>
+            <div class="profile-stat__value" id="stat-configs">0</div>
+          </div>
+          <div class="profile-stat">
+            <div class="profile-stat__label">Скачиваний</div>
+            <div class="profile-stat__value" id="stat-downloads">0</div>
+          </div>
+          <div class="profile-stat">
+            <div class="profile-stat__label">Роль</div>
+            <div class="profile-stat__value" id="stat-role">User</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="profile-tabs" role="tablist">
+        <button class="profile-tab is-active" type="button" data-profile-tab="overview" role="tab" aria-selected="true">
+          <span class="profile-tab__ico">🏠</span><span>Обзор</span>
+        </button>
+        <button class="profile-tab" type="button" data-profile-tab="subs" role="tab" aria-selected="false">
+          <span class="profile-tab__ico">💳</span><span>Подписки</span>
+        </button>
+        <button class="profile-tab" type="button" data-profile-tab="configs" role="tab" aria-selected="false">
+          <span class="profile-tab__ico">☁️</span><span>Конфиги</span>
+        </button>
+        <button class="profile-tab" type="button" data-profile-tab="roles" role="tab" aria-selected="false">
+          <span class="profile-tab__ico">🏷</span><span>Роли</span>
+        </button>
+        <button class="profile-tab" type="button" data-profile-tab="security" role="tab" aria-selected="false">
+          <span class="profile-tab__ico">🔒</span><span>Безопасность</span>
+        </button>
+      </div>
+
+      <!-- Tab: Overview -->
+      <section class="profile-panel is-active" data-profile-panel="overview" role="tabpanel">
+        <div class="profile-grid">
+          <article class="profile-card profile-card--accent">
+            <div class="profile-card__head">
+              <span class="profile-card__title">Подписка</span>
+              <span class="profile-card__pill" id="overview-sub-pill">—</span>
+            </div>
+            <div class="profile-card__big" id="overview-sub-status">Не активна</div>
+            <p class="profile-card__sub" id="overview-sub-sub">
+              Подпишитесь, чтобы получить доступ ко всем функциям MonoClient.
+            </p>
+            <a class="primary-btn" href="./index.html#pricing">
+              <span>К тарифам</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+          </article>
+
+          <article class="profile-card">
+            <div class="profile-card__head">
+              <span class="profile-card__title">Быстрые действия</span>
+            </div>
+            <div class="profile-actions">
+              <a class="action-row" href="./index.html#download" data-gated-action="download" data-action-href="https://github.com/kinngg2/people-visuals-launcher">
+                <span class="action-row__ico">⬇</span>
+                <span class="action-row__text">
+                  <span class="action-row__title">Скачать клиент</span>
+                  <span class="action-row__sub">Последний релиз для Windows</span>
+                </span>
+                <span class="action-row__arrow">›</span>
+              </a>
+              <button class="action-row" type="button" id="action-claim-config">
+                <span class="action-row__ico">☁️</span>
+                <span class="action-row__text">
+                  <span class="action-row__title">Добавить облачный конфиг</span>
+                  <span class="action-row__sub">Сохраните пресет в облако</span>
+                </span>
+                <span class="action-row__arrow">›</span>
+              </button>
+              <a class="action-row" href="https://github.com/kinngg2/pulse-visuals-launcher/issues">
+                <span class="action-row__ico">🛟</span>
+                <span class="action-row__text">
+                  <span class="action-row__title">Поддержка</span>
+                  <span class="action-row__sub">Создать тикет на GitHub</span>
+                </span>
+                <span class="action-row__arrow">›</span>
+              </a>
+            </div>
+          </article>
+
+          <article class="profile-card profile-card--span">
+            <div class="profile-card__head">
+              <span class="profile-card__title">Активность</span>
+            </div>
+            <div class="activity">
+              <div class="activity-row">
+                <span class="activity-dot" style="background:#7770ff"></span>
+                <span class="activity-text">
+                  <strong>Создан аккаунт</strong>
+                  <span class="activity-sub" id="activity-created">—</span>
+                </span>
+              </div>
+              <div class="activity-row" id="activity-sub-row" hidden>
+                <span class="activity-dot" style="background:#ffd166"></span>
+                <span class="activity-text">
+                  <strong>Подписка активна</strong>
+                  <span class="activity-sub" id="activity-sub">—</span>
+                </span>
+              </div>
+              <div class="activity-row">
+                <span class="activity-dot" style="background:#06d6a0"></span>
+                <span class="activity-text">
+                  <strong>Последний вход</strong>
+                  <span class="activity-sub">только что</span>
+                </span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Tab: Subscriptions -->
+      <section class="profile-panel" data-profile-panel="subs" role="tabpanel" hidden>
+        <article class="profile-card">
+          <div class="profile-card__head">
+            <span class="profile-card__title">Текущая подписка</span>
+            <span class="profile-card__pill" id="subs-status-pill">—</span>
+          </div>
+          <div class="subs-state">
+            <div class="subs-state__main">
+              <div class="subs-state__title" id="subs-state-title">Не оформлена</div>
+              <div class="subs-state__sub" id="subs-state-sub">
+                Выберите тариф, чтобы получить доступ к Premium-функциям.
+              </div>
+            </div>
+            <a class="primary-btn" href="./index.html#pricing">
+              <span>Выбрать тариф</span><span class="arrow" aria-hidden="true">↗</span>
+            </a>
+          </div>
+          <div class="subs-detail" id="subs-detail" hidden>
+            <div class="subs-detail__row">
+              <span>План</span><strong id="subs-plan">—</strong>
+            </div>
+            <div class="subs-detail__row">
+              <span>Активна с</span><strong id="subs-from">—</strong>
+            </div>
+            <div class="subs-detail__row">
+              <span>Истекает</span><strong id="subs-until">—</strong>
+            </div>
+            <div class="subs-detail__row">
+              <span>Стоимость</span><strong id="subs-price">—</strong>
+            </div>
+          </div>
+        </article>
+
+        <article class="profile-card">
+          <div class="profile-card__head">
+            <span class="profile-card__title">История платежей</span>
+          </div>
+          <table class="ledger" id="payments-table">
+            <thead>
+              <tr><th>Дата</th><th>План</th><th>Сумма</th><th>Статус</th></tr>
+            </thead>
+            <tbody id="payments-body">
+              <tr class="ledger__empty">
+                <td colspan="4">Пока нет платежей. <a href="./index.html#pricing">Оформить</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </article>
+      </section>
+
+      <!-- Tab: Configs -->
+      <section class="profile-panel" data-profile-panel="configs" role="tabpanel" hidden>
+        <article class="profile-card">
+          <div class="profile-card__head">
+            <span class="profile-card__title">Мои конфиги</span>
+            <button class="ghost-btn small" type="button" id="action-claim-config-2">+ Добавить</button>
+          </div>
+          <div class="configs-list" id="configs-list">
+            <div class="configs-empty">
+              Тут будут ваши облачные конфиги. Нажмите «Добавить», чтобы создать первый.
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- Tab: Roles -->
+      <section class="profile-panel" data-profile-panel="roles" role="tabpanel" hidden>
+        <article class="profile-card">
+          <div class="profile-card__head">
+            <span class="profile-card__title">Ваша роль</span>
+            <span class="profile-card__pill" id="role-pill-big">User</span>
+          </div>
+          <p class="profile-card__sub" id="role-desc">Базовая роль для всех пользователей.</p>
+        </article>
+        <article class="profile-card">
+          <div class="profile-card__head">
+            <span class="profile-card__title">Все роли в системе</span>
+          </div>
+          <div class="roles-grid" id="roles-grid"></div>
+        </article>
+      </section>
+
+      <!-- Tab: Security -->
+      <section class="profile-panel" data-profile-panel="security" role="tabpanel" hidden>
+        <article class="profile-card">
+          <div class="profile-card__head">
+            <span class="profile-card__title">Аккаунт</span>
+          </div>
+          <div class="security-rows">
+            <div class="security-row">
+              <div>
+                <div class="security-row__title">Никнейм</div>
+                <div class="security-row__sub" id="sec-username">—</div>
+              </div>
+              <span class="badge">Закреплено</span>
+            </div>
+            <div class="security-row">
+              <div>
+                <div class="security-row__title">Email</div>
+                <div class="security-row__sub" id="sec-email">—</div>
+              </div>
+              <span class="badge">Подтверждено</span>
+            </div>
+            <div class="security-row">
+              <div>
+                <div class="security-row__title">Пароль</div>
+                <div class="security-row__sub">Сменён никогда</div>
+              </div>
+              <button class="ghost-btn small" type="button" disabled title="Скоро">Сменить</button>
+            </div>
+            <div class="security-row">
+              <div>
+                <div class="security-row__title">2FA</div>
+                <div class="security-row__sub">Двухфакторная аутентификация</div>
+              </div>
+              <button class="ghost-btn small" type="button" disabled title="Скоро">Включить</button>
+            </div>
+          </div>
+        </article>
+        <article class="profile-card profile-card--danger">
+          <div class="profile-card__head">
+            <span class="profile-card__title">Опасная зона</span>
+          </div>
+          <button class="ghost-btn danger" type="button" id="action-logout">Выйти из аккаунта</button>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-bottom">
+      <span>© 2026 — MonoClient.</span>
+    </div>
+  </footer>
+
+  <!-- Auth modal (shared, copy from index.html) -->
+  <div class="modal" id="auth-modal" hidden role="dialog" aria-modal="true" aria-labelledby="auth-title">
+    <div class="modal-backdrop" data-modal-close></div>
+    <div class="modal-card">
+      <button class="modal-close" type="button" aria-label="Закрыть" data-modal-close>×</button>
+      <div class="modal-brand">
+        <span class="diamond" aria-hidden="true"></span>
+        <h2 id="auth-title">MonoClient</h2>
+      </div>
+      <div class="auth-tabs" role="tablist">
+        <button class="auth-tab is-active" type="button" data-auth-tab="login" role="tab" aria-selected="true">Вход</button>
+        <button class="auth-tab" type="button" data-auth-tab="register" role="tab" aria-selected="false">Регистрация</button>
+      </div>
+      <form class="auth-form" id="form-login" novalidate>
+        <p class="auth-intro">Войдите, чтобы открыть профиль.</p>
+        <label class="auth-field">
+          <span>Логин или email</span>
+          <input type="text" name="identifier" autocomplete="username" required />
+        </label>
+        <label class="auth-field">
+          <span>Пароль</span>
+          <input type="password" name="password" autocomplete="current-password" required />
+        </label>
+        <div class="auth-error" data-auth-error hidden></div>
+        <button class="primary-btn full" type="submit"><span>Войти</span><span class="arrow">↗</span></button>
+        <p class="auth-switch">Нет аккаунта? <button type="button" class="link-btn" data-auth-tab="register">Зарегистрироваться</button></p>
+      </form>
+      <form class="auth-form" id="form-register" hidden novalidate>
+        <p class="auth-intro">Создайте бесплатный аккаунт.</p>
+        <label class="auth-field"><span>Никнейм</span><input type="text" name="username" required minlength="3" maxlength="24" /></label>
+        <label class="auth-field"><span>Email</span><input type="email" name="email" required /></label>
+        <label class="auth-field"><span>Пароль</span><input type="password" name="password" required minlength="6" /></label>
+        <label class="auth-field"><span>Повторите пароль</span><input type="password" name="password2" required minlength="6" /></label>
+        <label class="auth-check"><input type="checkbox" name="agree" required /><span>Согласен с условиями</span></label>
+        <div class="auth-error" data-auth-error hidden></div>
+        <button class="primary-btn full" type="submit"><span>Создать аккаунт</span><span class="arrow">↗</span></button>
+        <p class="auth-switch">Уже есть аккаунт? <button type="button" class="link-btn" data-auth-tab="login">Войти</button></p>
+      </form>
+    </div>
+  </div>
+
+  <div class="site-toast" id="site-toast" hidden></div>
+
+  <script src="./app.js"></script>
+  <script src="./profile.js"></script>
+</body>
+</html>
