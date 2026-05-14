@@ -1,9 +1,9 @@
 {
-  "name": "pulse-visuals-launcher",
+  "name": "monoclient-launcher",
   "version": "0.1.0",
-  "description": "Pulse Visuals — Minecraft mod launcher (Electron + WebView)",
+  "description": "MonoClient — Minecraft launcher for Funtime.su (Electron + WebView)",
   "main": "main.js",
-  "author": "Pulse Visuals",
+  "author": "MonoClient",
   "license": "MIT",
   "private": true,
   "scripts": {
@@ -25,8 +25,8 @@
     "eslint": "8.57.1"
   },
   "build": {
-    "appId": "com.pulsevisuals.launcher",
-    "productName": "Pulse Visuals",
+    "appId": "com.monoclient.launcher",
+    "productName": "MonoClient",
     "files": [
       "main.js",
       "preload.js",

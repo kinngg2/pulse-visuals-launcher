@@ -1,48 +1,34 @@
-/* Pulse Visuals launcher — renderer logic
- *
- * Communicates with the Electron main process through `window.launcher`
- * (defined in preload.js). Two screens are rendered inside the same window
- * and toggled via the simple router below.
- */
-
 const $ = (sel) => document.querySelector(sel);
 
 const screens = {
-  welcome: $('#screen-welcome'),
-  profile: $('#screen-profile'),
+  login: $('#screen-login'),
+  launcher: $('#screen-launcher'),
 };
 
 const els = {
-  // welcome
   versionCard: $('#version-card'),
   versionLabel: $('#version-label'),
   versionDropdown: $('#version-dropdown'),
   versionList: $('#version-list'),
   nickInput: $('#nick-input'),
-  nickConfirm: $('#nick-confirm'),
   nickRandom: $('#nick-random'),
   playBtn: $('#play-btn'),
   openFolder: $('#open-folder'),
-  openSettings: $('#open-settings'),
+  openLogs: $('#open-logs'),
   toast: $('#toast'),
 
-  // profile
   profileUsername: $('#profile-username'),
   profileRole: $('#profile-role'),
   profileSubscription: $('#profile-subscription'),
   profileId: $('#profile-id'),
-  btnLogin: $('#btn-login'),
   btnNotMe: $('#btn-not-me'),
 
-  // login modal
-  loginModal: $('#login-modal'),
+  loginForm: $('#login-form'),
   loginUsername: $('#login-username'),
   loginPassword: $('#login-password'),
   loginError: $('#login-error'),
   loginSubmit: $('#login-submit'),
-  loginClose: $('#login-close'),
 
-  // window controls
   wcMin: $('#wc-minimize'),
   wcClose: $('#wc-close'),
 };
@@ -56,16 +42,13 @@ const state = {
 
 let toastTimer = null;
 
-// ---------------------------------------------------------- helpers
-
 function showToast(message, variant = '') {
-  const t = els.toast;
-  t.textContent = message;
-  t.className = 'toast' + (variant ? ` toast--${variant}` : '');
-  t.hidden = false;
+  els.toast.textContent = message;
+  els.toast.className = 'toast' + (variant ? ` toast--${variant}` : '');
+  els.toast.hidden = false;
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => {
-    t.hidden = true;
+    els.toast.hidden = true;
   }, 3000);
 }
 
@@ -83,26 +66,24 @@ function updatePlayBtnState() {
 }
 
 function randomNickname() {
-  const adjectives = ['Swift', 'Neon', 'Pulse', 'Shadow', 'Frost', 'Crimson', 'Vivid', 'Lunar'];
-  const nouns = ['Wolf', 'Falcon', 'Tiger', 'Phantom', 'Nova', 'Byte', 'Voxel', 'Pixel'];
+  const adjectives = ['Mono', 'Fun', 'Neon', 'Nova', 'Shadow', 'Crystal', 'Vortex', 'Lunar'];
+  const nouns = ['Player', 'Strafe', 'Cube', 'Byte', 'Storm', 'Flash', 'Knight', 'Pulse'];
   const a = adjectives[Math.floor(Math.random() * adjectives.length)];
   const n = nouns[Math.floor(Math.random() * nouns.length)];
   const num = Math.floor(Math.random() * 90) + 10;
   return `${a}${n}${num}`;
 }
 
-// ---------------------------------------------------------- version dropdown
-
 function renderVersionList() {
   els.versionList.innerHTML = '';
-  state.versions.forEach((v) => {
+  state.versions.forEach((version) => {
     const li = document.createElement('li');
-    li.textContent = v.label;
-    li.dataset.id = v.id;
+    li.textContent = version.label;
+    li.dataset.id = version.id;
     li.setAttribute('role', 'option');
-    li.setAttribute('aria-selected', String(v.id === state.selectedVersionId));
+    li.setAttribute('aria-selected', String(version.id === state.selectedVersionId));
     li.addEventListener('click', () => {
-      selectVersion(v.id);
+      selectVersion(version.id);
       toggleVersionDropdown(false);
     });
     els.versionList.appendChild(li);
@@ -110,24 +91,53 @@ function renderVersionList() {
 }
 
 function selectVersion(id) {
-  const v = state.versions.find((x) => x.id === id);
-  if (!v) return;
-  state.selectedVersionId = v.id;
-  els.versionLabel.textContent = v.label;
+  const version = state.versions.find((item) => item.id === id);
+  if (!version) return;
+  state.selectedVersionId = version.id;
+  els.versionLabel.textContent = version.label;
   renderVersionList();
   updatePlayBtnState();
-  window.launcher.store.set('selectedVersion', v.id);
+  window.launcher.store.set('selectedVersion', version.id);
 }
 
 function toggleVersionDropdown(force) {
-  const isHidden = els.versionDropdown.hidden;
-  const next = typeof force === 'boolean' ? !force : !isHidden;
-  els.versionDropdown.hidden = next;
+  const shouldShow = typeof force === 'boolean' ? force : els.versionDropdown.hidden;
+  els.versionDropdown.hidden = !shouldShow;
 }
 
-// ---------------------------------------------------------- screen 1: welcome
+function renderProfile(profile) {
+  state.profile = profile;
+  els.profileUsername.textContent = profile.username || 'Player';
+  els.profileRole.textContent = profile.role || 'Пользователь';
+  const days = Number(profile.subscription_days);
+  els.profileSubscription.textContent = Number.isFinite(days) ? `${days} дн.` : '—';
+  els.profileId.textContent = profile.user_id ? String(profile.user_id) : '—';
+}
 
-async function initWelcomeScreen() {
+async function refreshProfile() {
+  const token = await window.launcher.store.get('token');
+  const cached = await window.launcher.store.get('lastProfile');
+  if (cached) renderProfile(cached);
+
+  const result = await window.launcher.checkAuth(token);
+  if (!result || !result.authenticated) {
+    await window.launcher.store.clearProfile();
+    showScreen('login');
+    return false;
+  }
+
+  const profile = {
+    username: result.username,
+    role: result.role,
+    subscription_days: result.subscription_days,
+    user_id: result.user_id,
+  };
+  renderProfile(profile);
+  await window.launcher.store.set('lastProfile', profile);
+  return true;
+}
+
+async function initLauncher() {
   try {
     const [versions, savedNick, savedVersion] = await Promise.all([
       window.launcher.getVersions(),
@@ -137,7 +147,7 @@ async function initWelcomeScreen() {
     state.versions = Array.isArray(versions) ? versions : [];
     renderVersionList();
 
-    const initialId = savedVersion && state.versions.find((v) => v.id === savedVersion)
+    const initialId = savedVersion && state.versions.find((version) => version.id === savedVersion)
       ? savedVersion
       : state.versions[0]?.id;
     if (initialId) selectVersion(initialId);
@@ -153,23 +163,37 @@ async function initWelcomeScreen() {
   }
 }
 
+async function initSession() {
+  await initLauncher();
+  try {
+    const token = await window.launcher.store.get('token');
+    if (!token) {
+      showScreen('login');
+      return;
+    }
+    const authenticated = await refreshProfile();
+    showScreen(authenticated ? 'launcher' : 'login');
+  } catch (err) {
+    console.error(err);
+    showScreen('login');
+  }
+}
+
 els.versionCard.addEventListener('click', () => toggleVersionDropdown());
 
-els.nickInput.addEventListener('input', (e) => {
-  state.nickname = e.target.value;
+document.addEventListener('click', (event) => {
+  if (!els.versionDropdown.hidden && !event.target.closest('#version-card, #version-dropdown')) {
+    toggleVersionDropdown(false);
+  }
+});
+
+els.nickInput.addEventListener('input', (event) => {
+  state.nickname = event.target.value;
   updatePlayBtnState();
 });
 
-els.nickConfirm.addEventListener('click', () => {
-  const nick = els.nickInput.value.trim();
-  if (!nick) {
-    showToast('Введите никнейм', 'error');
-    return;
-  }
-  state.nickname = nick;
-  window.launcher.store.set('nickname', nick);
-  showToast('Ник сохранён', 'success');
-  updatePlayBtnState();
+els.nickInput.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') els.playBtn.click();
 });
 
 els.nickRandom.addEventListener('click', () => {
@@ -189,6 +213,7 @@ els.playBtn.addEventListener('click', async () => {
     showToast('Выберите версию', 'error');
     return;
   }
+
   els.playBtn.disabled = true;
   const originalLabel = els.playBtn.querySelector('.play-label').textContent;
   els.playBtn.querySelector('.play-label').textContent = 'Запуск…';
@@ -198,7 +223,7 @@ els.playBtn.addEventListener('click', async () => {
     if (result && result.ok === false) {
       showToast(result.error || 'Не удалось запустить игру', 'error');
     } else if (result && result.stub) {
-      showToast('Заглушка: minecraft-launcher-core не установлен', 'error');
+      showToast('Заглушка запуска Minecraft', 'error');
     } else {
       showToast('Запуск Minecraft…', 'success');
     }
@@ -214,88 +239,20 @@ els.openFolder.addEventListener('click', () => {
   window.launcher.openMinecraftFolder();
 });
 
-els.openSettings.addEventListener('click', async () => {
-  // The gear icon in the welcome screen opens the profile screen if a session
-  // exists, or the login modal otherwise.
-  const token = await window.launcher.store.get('token');
-  if (token) {
-    await refreshProfile();
-    showScreen('profile');
-  } else {
-    openLoginModal();
-  }
+els.openLogs.addEventListener('click', () => {
+  window.launcher.openLogs();
 });
-
-// ---------------------------------------------------------- screen 2: profile
-
-function renderProfile(profile) {
-  state.profile = profile;
-  els.profileUsername.textContent = profile.username || '—';
-  els.profileRole.textContent = profile.role || '—';
-  const days = Number(profile.subscription_days);
-  els.profileSubscription.textContent = Number.isFinite(days) ? `${days} дн.` : '—';
-  els.profileId.textContent = profile.user_id ? String(profile.user_id) : '—';
-}
-
-async function refreshProfile() {
-  try {
-    const token = await window.launcher.store.get('token');
-    const cached = await window.launcher.store.get('lastProfile');
-    if (cached) renderProfile(cached);
-    const result = await window.launcher.checkAuth(token);
-    if (result && result.authenticated) {
-      const profile = {
-        username: result.username,
-        role: result.role,
-        subscription_days: result.subscription_days,
-        user_id: result.user_id,
-      };
-      renderProfile(profile);
-      await window.launcher.store.set('lastProfile', profile);
-      if (profile.subscription_days <= 0) {
-        showToast('Подписка истекла', 'error');
-      }
-    }
-  } catch (err) {
-    showToast('Не удалось обновить профиль', 'error');
-    console.error(err);
-  }
-}
-
-els.btnLogin.addEventListener('click', () => openLoginModal());
 
 els.btnNotMe.addEventListener('click', async () => {
   await window.launcher.logout();
   await window.launcher.store.clearProfile();
   state.profile = null;
-  state.nickname = '';
-  els.nickInput.value = '';
-  updatePlayBtnState();
-  showScreen('welcome');
-  showToast('Данные очищены', 'success');
+  showScreen('login');
+  showToast('Вы вышли из аккаунта', 'success');
 });
 
-// ---------------------------------------------------------- login modal
-
-function openLoginModal() {
-  els.loginUsername.value = '';
-  els.loginPassword.value = '';
-  els.loginError.hidden = true;
-  els.loginModal.hidden = false;
-  setTimeout(() => els.loginUsername.focus(), 60);
-}
-
-function closeLoginModal() {
-  els.loginModal.hidden = true;
-}
-
-els.loginClose.addEventListener('click', closeLoginModal);
-
-els.loginModal.addEventListener('click', (e) => {
-  if (e.target === els.loginModal) closeLoginModal();
-});
-
-els.loginSubmit.addEventListener('click', async () => {
+els.loginForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
   const username = els.loginUsername.value.trim();
   const password = els.loginPassword.value;
   if (!username || !password) {
@@ -303,7 +260,9 @@ els.loginSubmit.addEventListener('click', async () => {
     els.loginError.hidden = false;
     return;
   }
+
   els.loginSubmit.disabled = true;
+  els.loginError.hidden = true;
   try {
     const result = await window.launcher.login(username, password);
     if (!result.ok) {
@@ -311,9 +270,14 @@ els.loginSubmit.addEventListener('click', async () => {
       els.loginError.hidden = false;
       return;
     }
-    closeLoginModal();
     renderProfile(result.profile);
-    showScreen('profile');
+    if (!state.nickname) {
+      state.nickname = result.profile.username || username;
+      els.nickInput.value = state.nickname;
+      window.launcher.store.set('nickname', state.nickname);
+    }
+    updatePlayBtnState();
+    showScreen('launcher');
     showToast('Добро пожаловать!', 'success');
   } catch (err) {
     els.loginError.textContent = err.message || 'Ошибка входа';
@@ -323,38 +287,7 @@ els.loginSubmit.addEventListener('click', async () => {
   }
 });
 
-els.loginPassword.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') els.loginSubmit.click();
-});
-
-// ---------------------------------------------------------- window controls
-
 els.wcMin.addEventListener('click', () => window.windowControls.minimize());
 els.wcClose.addEventListener('click', () => window.windowControls.close());
 
-// ---------------------------------------------------------- click-outside
-
-document.addEventListener('click', (e) => {
-  if (!els.versionDropdown.hidden) {
-    const inside = e.target.closest('.version-card, .version-dropdown');
-    if (!inside) toggleVersionDropdown(false);
-  }
-});
-
-// ---------------------------------------------------------- bootstrap
-
-async function bootstrap() {
-  await initWelcomeScreen();
-
-  const token = await window.launcher.store.get('token');
-  const cached = await window.launcher.store.get('lastProfile');
-  if (token && cached) {
-    renderProfile(cached);
-    showScreen('profile');
-    refreshProfile();
-  } else {
-    showScreen('welcome');
-  }
-}
-
-bootstrap();
+initSession();

@@ -8,172 +8,201 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div class="shell-frame" aria-hidden="true"></div>
     <header class="titlebar">
-      <div class="brand">
-        <svg class="brand-logo" viewBox="0 0 28 28" aria-hidden="true">
-          <path d="M2 14 H7 L10 7 L14 21 L18 11 L21 14 H26"
-                stroke="url(#pulse-grad)" stroke-width="2.4"
-                stroke-linecap="round" stroke-linejoin="round" fill="none" />
-          <defs>
-            <linearGradient id="pulse-grad" x1="0" y1="0" x2="28" y2="28">
-              <stop offset="0" stop-color="#a78bfa" />
-              <stop offset="1" stop-color="#7c3aed" />
-            </linearGradient>
-          </defs>
-        </svg>
-        <span class="brand-name">PulseVisuals</span>
+      <div class="brand" aria-label="MonoClient">
+        <span class="brand-mark"></span>
       </div>
-      <div class="window-controls">
-        <button class="wc-btn" id="wc-minimize" title="Свернуть" aria-label="Свернуть">
-          <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true">
-            <line x1="2" y1="6" x2="10" y2="6" stroke="currentColor" stroke-width="1.2" />
+      <nav class="top-nav" aria-label="Навигация">
+        <button class="nav-button nav-button--active" type="button">Launcher</button>
+        <button class="nav-button" type="button">Funtime.su</button>
+        <button class="nav-button" type="button">Changelog</button>
+      </nav>
+      <div class="title-actions">
+        <button class="lang-btn" type="button" aria-label="Язык интерфейса">RU</button>
+        <button class="theme-btn" type="button" aria-label="Тема">
+          <svg viewBox="0 0 18 18" width="16" height="16" aria-hidden="true">
+            <circle cx="9" cy="9" r="3.2" fill="none" stroke="currentColor" stroke-width="1.4" />
+            <path d="M9 1.2V3M9 15v1.8M1.2 9H3M15 9h1.8M3.4 3.4l1.3 1.3M13.3 13.3l1.3 1.3M14.6 3.4l-1.3 1.3M4.7 13.3l-1.3 1.3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
           </svg>
         </button>
-        <button class="wc-btn" id="wc-close" title="Закрыть" aria-label="Закрыть">
-          <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true">
-            <line x1="2.5" y1="2.5" x2="9.5" y2="9.5" stroke="currentColor" stroke-width="1.2" />
-            <line x1="9.5" y1="2.5" x2="2.5" y2="9.5" stroke="currentColor" stroke-width="1.2" />
-          </svg>
-        </button>
+        <div class="window-controls">
+          <button class="wc-btn" id="wc-minimize" title="Свернуть" aria-label="Свернуть">
+            <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true">
+              <line x1="2" y1="6" x2="10" y2="6" stroke="currentColor" stroke-width="1.2" />
+            </svg>
+          </button>
+          <button class="wc-btn" id="wc-close" title="Закрыть" aria-label="Закрыть">
+            <svg viewBox="0 0 12 12" width="12" height="12" aria-hidden="true">
+              <line x1="2.5" y1="2.5" x2="9.5" y2="9.5" stroke="currentColor" stroke-width="1.2" />
+              <line x1="9.5" y1="2.5" x2="2.5" y2="9.5" stroke="currentColor" stroke-width="1.2" />
+            </svg>
+          </button>
+        </div>
       </div>
     </header>
 
     <main class="app">
-      <!-- ============================== Screen 1: Welcome -->
-      <section class="screen" id="screen-welcome" aria-hidden="false">
-        <h1 class="welcome-title">
-          Добро пожаловать в<br />
-          Pulse Visuals
-        </h1>
-        <p class="welcome-sub">
-          Выбери версию клиента, впиши свой никнейм<br />и вперед в бой!
-        </p>
+      <section class="auth-layout screen" id="screen-login" aria-hidden="false">
+        <section class="auth-card" aria-labelledby="login-title">
+          <div class="card-topline">
+            <span class="brand-mark brand-mark--small"></span>
+            <div class="card-toolbar">
+              <button class="toolbar-btn" type="button">RU</button>
+              <button class="toolbar-btn toolbar-btn--icon" type="button" aria-label="Сменить тему">
+                <svg viewBox="0 0 18 18" width="14" height="14" aria-hidden="true">
+                  <circle cx="9" cy="9" r="2.8" fill="none" stroke="currentColor" stroke-width="1.4" />
+                  <path d="M9 1.5V3M9 15v1.5M1.5 9H3M15 9h1.5M3.6 3.6l1.1 1.1M13.3 13.3l1.1 1.1M14.4 3.6l-1.1 1.1M4.7 13.3l-1.1 1.1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                </svg>
+              </button>
+            </div>
+          </div>
 
-        <button class="version-card" id="version-card" type="button">
-          <span class="version-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="22" height="22">
-              <path d="M12 2 L21 7 L21 17 L12 22 L3 17 L3 7 Z" fill="#fff" opacity="0.9"/>
-              <path d="M12 2 L21 7 L12 12 L3 7 Z" fill="#fff" opacity="0.7"/>
-              <path d="M12 12 L21 7 L21 17 L12 22 Z" fill="#fff" opacity="0.55"/>
-            </svg>
-          </span>
-          <span class="version-label" id="version-label">Fabric 1.21.4</span>
-          <span class="version-chev" aria-hidden="true">
-            <svg viewBox="0 0 12 18" width="12" height="18">
-              <polyline points="2,2 10,9 2,16" fill="none" stroke="#fff" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
-        </button>
+          <div class="auth-copy">
+            <h1 id="login-title">С возвращением в <span>MonoClient</span></h1>
+            <p>Войдите в свой аккаунт для доступа к лаунчеру Funtime.su.</p>
+          </div>
 
-        <div class="version-dropdown" id="version-dropdown" hidden>
-          <ul id="version-list" role="listbox"></ul>
-        </div>
+          <form class="login-form" id="login-form">
+            <label class="field">
+              <span>Логин</span>
+              <input class="field-input" id="login-username" type="text" autocomplete="username" spellcheck="false" placeholder="Введите логин" />
+            </label>
+            <label class="field">
+              <span>Пароль</span>
+              <input class="field-input" id="login-password" type="password" autocomplete="current-password" placeholder="Введите пароль" />
+            </label>
+            <div class="login-error" id="login-error" hidden></div>
+            <button class="primary-btn" id="login-submit" type="submit">Войти</button>
+          </form>
 
-        <div class="nick-row">
-          <input class="nick-input" id="nick-input" type="text" placeholder="Введи никнейм"
-                 maxlength="16" autocomplete="off" spellcheck="false" />
-          <button class="nick-btn" id="nick-confirm" title="Сохранить ник" aria-label="Сохранить ник">
-            <svg viewBox="0 0 18 18" width="16" height="16">
-              <path d="M3 9 L7.5 13.5 L15 5" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </button>
-          <button class="nick-btn" id="nick-random" title="Случайный ник" aria-label="Случайный ник">
-            <svg viewBox="0 0 18 18" width="16" height="16">
-              <rect x="2.5" y="2.5" width="13" height="13" rx="2.5" fill="none"
-                    stroke="currentColor" stroke-width="1.5" />
-              <circle cx="6.2" cy="6.2" r="1.1" fill="currentColor" />
-              <circle cx="11.8" cy="6.2" r="1.1" fill="currentColor" />
-              <circle cx="9" cy="9" r="1.1" fill="currentColor" />
-              <circle cx="6.2" cy="11.8" r="1.1" fill="currentColor" />
-              <circle cx="11.8" cy="11.8" r="1.1" fill="currentColor" />
-            </svg>
-          </button>
-        </div>
+          <p class="auth-footnote">Тестовый вход: <strong>test</strong> / <strong>test</strong></p>
+        </section>
 
-        <div class="play-row">
-          <button class="play-btn" id="play-btn" type="button" disabled>
-            <span class="play-label">Играть</span>
-          </button>
-          <button class="icon-btn" id="open-folder" title="Открыть папку игры" aria-label="Папка игры">
-            <svg viewBox="0 0 20 20" width="16" height="16">
-              <path d="M2.5 5.5 A1.5 1.5 0 0 1 4 4 H8 L9.5 5.5 H16 A1.5 1.5 0 0 1 17.5 7 V14
-                       A1.5 1.5 0 0 1 16 15.5 H4 A1.5 1.5 0 0 1 2.5 14 Z"
-                    fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" />
-            </svg>
-          </button>
-          <button class="icon-btn" id="open-settings" title="Профиль" aria-label="Профиль">
-            <svg viewBox="0 0 20 20" width="16" height="16">
-              <circle cx="10" cy="10" r="2.4" fill="none" stroke="currentColor" stroke-width="1.4" />
-              <path d="M10 1.8 L11 4.2 L13.6 3.4 L13 6 L15.4 7.3 L13.6 9 L15.4 10.7 L13 12 L13.6 14.6 L11 13.8 L10 16.2
-                       L9 13.8 L6.4 14.6 L7 12 L4.6 10.7 L6.4 9 L4.6 7.3 L7 6 L6.4 3.4 L9 4.2 Z"
-                    fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" />
-            </svg>
-          </button>
-        </div>
-
-        <div class="toast" id="toast" hidden></div>
+        <aside class="promo-panel" aria-label="Информация о MonoClient">
+          <article class="news-card news-card--hero">
+            <div class="news-meta">MonoClient • Funtime.su</div>
+            <h2>Доминируй на каждом сервере</h2>
+            <p>Лаунчер для MonoClient с быстрым стартом, выбором версии и аккуратным тёмным UI.</p>
+          </article>
+          <article class="preview-card">
+            <div class="preview-toolbar">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="module-grid">
+              <div class="module-card module-card--wide">
+                <div class="module-head"><span>Killaura</span><strong>None</strong></div>
+                <div class="module-line"></div>
+                <div class="module-line module-line--short"></div>
+                <div class="color-dots"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              </div>
+              <div class="module-card">
+                <div class="module-head"><span>Module name</span><strong>None</strong></div>
+                <div class="module-line"></div>
+                <div class="module-line module-line--short"></div>
+              </div>
+              <div class="module-card module-card--wide">
+                <div class="module-head"><span>Bind</span><strong>L. SHIFT + W</strong></div>
+                <div class="module-line"></div>
+                <div class="slider"><b></b></div>
+              </div>
+            </div>
+          </article>
+        </aside>
       </section>
 
-      <!-- ============================== Screen 2: Profile -->
-      <section class="screen" id="screen-profile" aria-hidden="true" hidden>
-        <h1 class="profile-greeting">Привет, <span id="profile-username">Abyzek1</span></h1>
-
-        <div class="profile-card">
-          <div class="profile-row">
-            <span class="profile-key">Ваша роль</span>
-            <span class="profile-value profile-value--accent">
-              <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
-                <circle cx="8" cy="5.5" r="2.8" fill="none" stroke="currentColor" stroke-width="1.4" />
-                <path d="M2.8 14 C3.6 11 5.6 9.6 8 9.6 C10.4 9.6 12.4 11 13.2 14"
-                      fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
-              </svg>
-              <span id="profile-role">Пользователь</span>
-            </span>
-          </div>
-          <div class="profile-row">
-            <span class="profile-key">Подписка</span>
-            <span class="profile-value" id="profile-subscription">27 дн.</span>
-          </div>
-          <div class="profile-row">
-            <span class="profile-key">ID</span>
-            <span class="profile-value" id="profile-id">212200</span>
-          </div>
-        </div>
-
-        <div class="profile-actions">
-          <button class="btn btn--primary" id="btn-login" type="button">Войти</button>
-          <button class="btn btn--ghost" id="btn-not-me" type="button">Это не я</button>
-        </div>
-      </section>
-
-      <!-- ============================== Login modal -->
-      <div class="modal" id="login-modal" hidden>
-        <div class="modal-card">
-          <div class="modal-header">
-            <h2>Вход в Pulse Visuals</h2>
-            <button class="modal-close" id="login-close" aria-label="Закрыть">
-              <svg viewBox="0 0 12 12" width="12" height="12">
-                <line x1="2.5" y1="2.5" x2="9.5" y2="9.5" stroke="currentColor" stroke-width="1.4" />
-                <line x1="9.5" y1="2.5" x2="2.5" y2="9.5" stroke="currentColor" stroke-width="1.4" />
+      <section class="launcher-layout screen" id="screen-launcher" aria-hidden="true" hidden>
+        <aside class="launcher-card">
+          <div class="launcher-toolbar">
+            <span class="brand-mark brand-mark--small"></span>
+            <div class="account-pill">
+              <span class="avatar-dot"></span>
+              <span id="profile-username">Player</span>
+            </div>
+            <button class="round-btn" id="btn-not-me" type="button" title="Выйти" aria-label="Выйти">
+              <svg viewBox="0 0 18 18" width="14" height="14" aria-hidden="true">
+                <path d="M7.2 3.2H4.4A1.4 1.4 0 0 0 3 4.6v8.8a1.4 1.4 0 0 0 1.4 1.4h2.8M10.2 5.4 13.8 9l-3.6 3.6M13.5 9H6.8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
             </button>
           </div>
-          <label class="modal-label">
-            Логин
-            <input class="modal-input" id="login-username" type="text" autocomplete="off" spellcheck="false" />
-          </label>
-          <label class="modal-label">
-            Пароль
-            <input class="modal-input" id="login-password" type="password" autocomplete="off" />
-          </label>
-          <div class="modal-error" id="login-error" hidden></div>
-          <button class="btn btn--primary modal-submit" id="login-submit" type="button">Войти</button>
-        </div>
-      </div>
-    </main>
 
+          <div class="product-block">
+            <h1>MonoClient</h1>
+            <p>v<span id="client-version">4.1.6</span></p>
+          </div>
+
+          <button class="primary-btn launch-btn" id="play-btn" type="button" disabled>
+            <svg viewBox="0 0 18 18" width="16" height="16" aria-hidden="true">
+              <path d="M6 4.2v9.6L13.8 9 6 4.2Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+            </svg>
+            <span class="play-label">Запустить</span>
+          </button>
+
+          <button class="select-btn" id="version-card" type="button">
+            <svg viewBox="0 0 18 18" width="16" height="16" aria-hidden="true">
+              <path d="M3 5.2 9 2l6 3.2-6 3.2L3 5.2Z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" />
+              <path d="M3 8.3 9 11.5l6-3.2M3 11.5 9 14.8l6-3.3" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span id="version-label">Выбрать версию</span>
+          </button>
+          <div class="version-dropdown" id="version-dropdown" hidden>
+            <ul id="version-list" role="listbox"></ul>
+          </div>
+
+          <label class="field nick-field">
+            <span>Никнейм</span>
+            <div class="nick-combo">
+              <input class="field-input" id="nick-input" type="text" placeholder="Ник для запуска" maxlength="16" autocomplete="off" spellcheck="false" />
+              <button class="round-btn" id="nick-random" type="button" title="Случайный ник" aria-label="Случайный ник">
+                <svg viewBox="0 0 18 18" width="14" height="14" aria-hidden="true">
+                  <path d="M3 5h2.2c1.7 0 2.5 8 4.2 8H15M12.5 2.8 15 5.1l-2.5 2.3M3 13h2.2c.7 0 1.3-1.3 1.8-2.8M12.5 10.7 15 13l-2.5 2.3" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+            </div>
+          </label>
+
+          <div class="version-meta">
+            <span>4.0</span>
+            <b>/</b>
+            <strong>Release</strong>
+            <b>/</b>
+            <span>1.21.4</span>
+          </div>
+
+          <footer class="client-footer">
+            <div>
+              <span class="brand-mark brand-mark--tiny"></span>
+              <strong>MonoClient</strong>
+            </div>
+            <span>Funtime.su</span>
+          </footer>
+        </aside>
+
+        <section class="content-panel">
+          <article class="release-card">
+            <p class="eyebrow">Релиз v4.0!</p>
+            <h2>Новый интерфейс лаунчера</h2>
+            <p>Тёмная тема, быстрый запуск, профиль игрока и аккуратный выбор версии для клиента.</p>
+          </article>
+          <div class="stats-row">
+            <div class="stat-card"><span>Роль</span><strong id="profile-role">Пользователь</strong></div>
+            <div class="stat-card"><span>Подписка</span><strong id="profile-subscription">—</strong></div>
+            <div class="stat-card"><span>ID</span><strong id="profile-id">—</strong></div>
+          </div>
+          <div class="action-grid">
+            <button class="utility-card" id="open-folder" type="button">
+              <span>Папка игры</span>
+              <small>Открыть .minecraft</small>
+            </button>
+            <button class="utility-card" id="open-logs" type="button">
+              <span>Логи</span>
+              <small>Проверить запуск</small>
+            </button>
+          </div>
+          <div class="toast" id="toast" hidden></div>
+        </section>
+      </section>
+    </main>
     <script src="app.js"></script>
   </body>
 </html>
