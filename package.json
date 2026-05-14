@@ -1,0 +1,77 @@
+{
+  "name": "monoclient-launcher",
+  "version": "0.2.2",
+  "description": "MonoClient — Minecraft launcher for Funtime.su (Electron + WebView)",
+  "main": "main.js",
+  "author": "MonoClient",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --enable-logging",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux",
+    "lint": "eslint . --ext .js"
+  },
+  "dependencies": {
+    "electron-store": "8.2.0",
+    "minecraft-launcher-core": "3.18.2"
+  },
+  "devDependencies": {
+    "electron": "31.7.7",
+    "electron-builder": "24.13.3",
+    "eslint": "8.57.1"
+  },
+  "build": {
+    "appId": "com.monoclient.launcher",
+    "productName": "MonoClient",
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "renderer/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "icon": "assets/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "mac": {
+      "icon": "assets/icon-512.png",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "category": "public.app-category.games"
+    },
+    "linux": {
+      "icon": "assets/icon-512.png",
+      "target": [
+        "AppImage"
+      ],
+      "category": "Game"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
