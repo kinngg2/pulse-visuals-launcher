@@ -31,6 +31,13 @@ const els = {
 
   wcMin: $('#wc-min'),
   wcClose: $('#wc-close'),
+
+  btnSettings: $('#btn-settings'),
+  settingsPopover: $('#settings-popover'),
+  settingsClose: $('#settings-close'),
+  accentGrid: $('#accent-grid'),
+  themeDark: $('#theme-dark'),
+  themeLight: $('#theme-light'),
 };
 
 const state = {
@@ -38,7 +45,88 @@ const state = {
   selectedVersionId: null,
   username: '',
   profile: null,
+  accent: '#7770ff',
+  accent2: '#8c86ff',
+  theme: 'dark',
 };
+
+const ACCENT_DEFAULT = { accent: '#7770ff', accent2: '#8c86ff' };
+
+function hexToRgb(hex) {
+  const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  if (!m) return null;
+  return {
+    r: parseInt(m[1], 16),
+    g: parseInt(m[2], 16),
+    b: parseInt(m[3], 16),
+  };
+}
+
+function applyAccent(accent, accent2) {
+  state.accent = accent;
+  state.accent2 = accent2 || accent;
+  const root = document.documentElement;
+  root.style.setProperty('--accent', state.accent);
+  root.style.setProperty('--accent-2', state.accent2);
+  const rgb = hexToRgb(state.accent);
+  if (rgb) {
+    root.style.setProperty('--accent-soft', `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.18)`);
+  }
+  // update active state in accent grid
+  if (els.accentGrid) {
+    els.accentGrid.querySelectorAll('.accent-swatch').forEach((btn) => {
+      const a = (btn.dataset.accent || '').toLowerCase();
+      btn.classList.toggle('accent-swatch--active', a === accent.toLowerCase());
+    });
+  }
+}
+
+function applyTheme(theme) {
+  state.theme = theme === 'light' ? 'light' : 'dark';
+  document.body.classList.toggle('theme-light', state.theme === 'light');
+  if (els.themeDark) els.themeDark.classList.toggle('theme-btn--active', state.theme === 'dark');
+  if (els.themeLight) els.themeLight.classList.toggle('theme-btn--active', state.theme === 'light');
+}
+
+async function loadPreferences() {
+  if (!window.launcher || !window.launcher.store) return;
+  try {
+    const [storedAccent, storedAccent2, storedTheme] = await Promise.all([
+      window.launcher.store.get('accent'),
+      window.launcher.store.get('accent2'),
+      window.launcher.store.get('theme'),
+    ]);
+    applyAccent(storedAccent || ACCENT_DEFAULT.accent, storedAccent2 || ACCENT_DEFAULT.accent2);
+    applyTheme(storedTheme || 'dark');
+  } catch (_) {
+    applyAccent(ACCENT_DEFAULT.accent, ACCENT_DEFAULT.accent2);
+    applyTheme('dark');
+  }
+}
+
+function persistAccent(accent, accent2) {
+  if (!window.launcher || !window.launcher.store) return;
+  try {
+    window.launcher.store.set('accent', accent);
+    window.launcher.store.set('accent2', accent2);
+  } catch (_) { /* ignore */ }
+}
+
+function persistTheme(theme) {
+  if (!window.launcher || !window.launcher.store) return;
+  try {
+    window.launcher.store.set('theme', theme);
+  } catch (_) { /* ignore */ }
+}
+
+function toggleSettings(force) {
+  if (!els.settingsPopover) return;
+  const next = typeof force === 'boolean' ? force : els.settingsPopover.hidden;
+  els.settingsPopover.hidden = !next;
+  if (els.btnSettings) {
+    els.btnSettings.setAttribute('aria-expanded', String(next));
+  }
+}
 
 let toastTimer = null;
 
@@ -255,4 +343,71 @@ if (els.wcMin) els.wcMin.addEventListener('click', () => window.windowControls.m
 if (els.wcClose) els.wcClose.addEventListener('click', () => window.windowControls.close());
 if (els.loginClose) els.loginClose.addEventListener('click', () => window.windowControls.close());
 
+// --- Settings popover ---
+if (els.btnSettings) {
+  els.btnSettings.addEventListener('click', (event) => {
+    event.stopPropagation();
+    toggleSettings();
+  });
+}
+
+if (els.settingsClose) {
+  els.settingsClose.addEventListener('click', () => toggleSettings(false));
+}
+
+if (els.accentGrid) {
+  els.accentGrid.addEventListener('click', (event) => {
+    const swatch = event.target.closest('.accent-swatch');
+    if (!swatch) return;
+    const accent = swatch.dataset.accent;
+    const accent2 = swatch.dataset.accent2 || accent;
+    if (!accent) return;
+    applyAccent(accent, accent2);
+    persistAccent(accent, accent2);
+    showToast('Цвет акцента обновлён', 'success');
+  });
+}
+
+if (els.themeDark) {
+  els.themeDark.addEventListener('click', () => {
+    applyTheme('dark');
+    persistTheme('dark');
+  });
+}
+if (els.themeLight) {
+  els.themeLight.addEventListener('click', () => {
+    applyTheme('light');
+    persistTheme('light');
+  });
+}
+
+// Close settings popover when clicking outside
+document.addEventListener('click', (event) => {
+  if (!els.settingsPopover || els.settingsPopover.hidden) return;
+  if (event.target.closest('#settings-popover, #btn-settings')) return;
+  toggleSettings(false);
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && els.settingsPopover && !els.settingsPopover.hidden) {
+    toggleSettings(false);
+  }
+});
+
+// --- Make preview color dots interactive too ---
+document.addEventListener('click', (event) => {
+  const dot = event.target.closest('.module-card__colors .dot');
+  if (!dot || dot.classList.contains('dot--brand')) return;
+  const bg = dot.style.backgroundColor || getComputedStyle(dot).backgroundColor;
+  // convert rgb() to hex
+  const m = bg.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+  if (!m) return;
+  const toHex = (n) => Number(n).toString(16).padStart(2, '0');
+  const hex = `#${toHex(m[1])}${toHex(m[2])}${toHex(m[3])}`;
+  applyAccent(hex, hex);
+  persistAccent(hex, hex);
+  showToast('Цвет акцента обновлён', 'success');
+});
+
+loadPreferences();
 initSession();
