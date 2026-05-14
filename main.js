@@ -11,12 +11,12 @@ let mainWindow = null;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 380,
-    height: 580,
-    minWidth: 360,
-    minHeight: 540,
-    maxWidth: 1000,
-    maxHeight: 700,
+    width: 790,
+    height: 490,
+    minWidth: 790,
+    minHeight: 490,
+    maxWidth: 790,
+    maxHeight: 490,
     resizable: false,
     frame: false,
     transparent: false,
