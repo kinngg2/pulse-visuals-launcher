@@ -1,5 +1,5 @@
 /**
- * API stubs for the Pulse Visuals launcher.
+ * API stubs for the MonoClient launcher.
  *
  * Each method mimics the shape of a future remote API. Swap the body of any
  * method with a real `fetch(...)` call to your backend when ready — the public
@@ -8,30 +8,28 @@
 
 const logger = require('./logger');
 
-const API_BASE_URL = process.env.PULSE_API_URL || 'https://api.pulsevisuals.local';
+const API_BASE_URL = process.env.MONOCLIENT_API_URL || 'https://api.monoclient.local';
 
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 const MOCK_VERSIONS = [
-  { id: 'fabric-loader-0.16.5-1.21.4', label: 'Fabric 1.21.4', loader: 'fabric' },
-  { id: 'fabric-loader-0.16.5-1.20.4', label: 'Fabric 1.20.4', loader: 'fabric' },
-  { id: 'forge-1.20.1-47.3.0', label: 'Forge 1.20.1', loader: 'forge' },
-  { id: 'vanilla-1.21.4', label: 'Vanilla 1.21.4', loader: 'vanilla' },
-  { id: 'vanilla-1.20.4', label: 'Vanilla 1.20.4', loader: 'vanilla' },
+  { id: 'fabric-loader-0.16.5-1.21.4', label: 'MonoClient 1.21.4', loader: 'fabric' },
+  { id: 'fabric-loader-0.16.5-1.20.4', label: 'MonoClient 1.20.4', loader: 'fabric' },
+  { id: 'forge-1.20.1-47.3.0', label: 'MonoClient Legacy 1.20.1', loader: 'forge' },
 ];
 
 const MOCK_PROFILE = {
-  username: 'Abyzek1',
+  username: 'MonoUser',
   role: 'Пользователь',
   subscription_days: 27,
   user_id: '212200',
-  token: 'mock-token-abyzek1',
+  token: 'mock-token-monoclient',
 };
 
 const MOCK_CREDENTIALS = {
-  abyzek1: 'pulse123',
+  monouser: 'mono123',
   test: 'test',
 };
 

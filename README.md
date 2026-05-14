@@ -1,15 +1,15 @@
-# Pulse Visuals Launcher
+# MonoClient Launcher
 
-Лаунчер для мода Minecraft на **Electron + Node.js**. Весь UI отрисовывается через WebView (BrowserWindow с локальным HTML/CSS/JS), бэкенд общается с рендером через `contextBridge` IPC.
+Лаунчер для Minecraft-клиента под **Funtime.su** на **Electron + Node.js**. UI отрисовывается через локальный HTML/CSS/JS, а Electron main process общается с рендером через `contextBridge` IPC.
 
 ## Возможности
 
-- Два экрана по макетам: «Приветствие / выбор версии» и «Личный кабинет».
-- Тёмная тема с неоновой фиолетовой подсветкой, кастомный frameless title bar.
-- Локальное хранилище ника и выбранной версии через `electron-store`.
-- Логирование всех действий (запуск, ошибки, API) в `logs.txt` (директория `userData`).
+- Два экрана в стиле референса Expensive: логин и основной лаунчер.
+- Тёмный frameless-интерфейс с фиолетовыми акцентами, grid-фоном и промо-панелью.
+- Локальное хранилище ника, токена, профиля и выбранной версии через `electron-store`.
+- Логирование действий в `logs.txt` в директории `userData`.
 - Запуск Minecraft через `minecraft-launcher-core` (Fabric/Forge/Vanilla), offline-режим без MS Auth.
-- Заглушки API (`getVersions`, `checkAuth`, `login`, `logout`) — готовы к замене на реальный HTTP.
+- Заглушки API (`getVersions`, `checkAuth`, `login`, `logout`) готовы к замене на реальный HTTP.
 - Блокировка запуска при истёкшей подписке (`subscription_days <= 0`).
 - Сборка `.exe` (NSIS), `.app` (DMG, x64 + arm64), `.AppImage` через `electron-builder`.
 
@@ -25,9 +25,9 @@ pulse-visuals-launcher/
 │   ├── logger.js           # logs.txt writer
 │   └── store.js            # electron-store wrapper
 └── renderer/
-    ├── index.html          # оба экрана + login modal
-    ├── style.css           # тёмная тема, неоновые акценты
-    └── app.js              # роутер экранов, обработчики, IPC-вызовы
+    ├── index.html          # login screen + launcher screen
+    ├── style.css           # Expensive-inspired dark MonoClient UI
+    └── app.js              # screen router, handlers, IPC calls
 ```
 
 ## Запуск в режиме разработки
@@ -79,7 +79,7 @@ async function login(username, password) {
 }
 ```
 
-Базовый URL берётся из переменной окружения `PULSE_API_URL`.
+Базовый URL берётся из переменной окружения `MONOCLIENT_API_URL`.
 
 ## Тестовые данные
 
@@ -87,7 +87,7 @@ async function login(username, password) {
 
 | login | password |
 | --- | --- |
-| `abyzek1` | `pulse123` |
+| `monouser` | `mono123` |
 | `test` | `test` |
 
 Профиль возвращает `subscription_days = 27`. Чтобы протестировать сценарий истёкшей подписки, выставьте `subscription_days <= 0` в `src/api.js`.
@@ -96,11 +96,9 @@ async function login(username, password) {
 
 `logs.txt` пишется в `app.getPath('userData')`:
 
-- Windows: `%APPDATA%\pulse-visuals-launcher\logs.txt`
-- macOS: `~/Library/Application Support/pulse-visuals-launcher/logs.txt`
-- Linux: `~/.config/pulse-visuals-launcher/logs.txt`
-
-Кнопка-шестерёнка на экране 1 открывает профиль (если есть токен) или модалку входа.
+- Windows: `%APPDATA%\monoclient-launcher\logs.txt`
+- macOS: `~/Library/Application Support/monoclient-launcher/logs.txt`
+- Linux: `~/.config/monoclient-launcher/logs.txt`
 
 ## Лицензия
 

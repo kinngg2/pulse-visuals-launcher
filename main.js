@@ -20,7 +20,7 @@ function createWindow() {
     resizable: false,
     frame: false,
     transparent: false,
-    backgroundColor: '#0a0a10',
+    backgroundColor: '#07070b',
     show: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
