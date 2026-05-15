@@ -1,0 +1,15 @@
+node_modules/
+dist/
+out/
+*.log
+logs.txt
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.exe
+*.app
+*.dmg
+*.AppImage
+.env
+.env.local
