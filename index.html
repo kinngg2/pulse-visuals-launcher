@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="WTF — дерзкая социальная сеть для быстрых мыслей, мемов, комнат и трендов." />
+    <title>WTF — социальная сеть</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="noise" aria-hidden="true"></div>
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="WTF home">
+        <span class="brand__mark">W</span>
+        <span>WTF</span>
+      </a>
+      <nav class="nav" aria-label="Главная навигация">
+        <a href="#feed">Лента</a>
+        <a href="#rooms">Комнаты</a>
+        <a href="#creators">Люди</a>
+        <a href="#app">Приложение</a>
+      </nav>
+      <button class="ghost-button" type="button">Войти</button>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero__copy">
+          <p class="eyebrow">Соцсеть нового шума</p>
+          <h1 id="hero-title">WTF — место, где постят честно, быстро и без скуки.</h1>
+          <p class="hero__text">Собирай друзей, запускай обсуждения, делись короткими мыслями, мемами и голосовыми комнатами в одном живом пространстве.</p>
+          <div class="hero__actions">
+            <a class="primary-button" href="#feed">Открыть ленту</a>
+            <a class="secondary-button" href="#app">Скачать приложение</a>
+          </div>
+          <dl class="stats" aria-label="Статистика WTF">
+            <div><dt>2.4M</dt><dd>постов в день</dd></div>
+            <div><dt>18K</dt><dd>живых комнат</dd></div>
+            <div><dt>91%</dt><dd>ответов за час</dd></div>
+          </dl>
+        </div>
+
+        <aside class="phone-card" aria-label="Превью приложения WTF">
+          <div class="phone-card__header">
+            <span class="status-dot"></span>
+            <span>live.wtf</span>
+            <span>14:32</span>
+          </div>
+          <div class="mini-profile">
+            <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=160&q=80" alt="Аватар пользователя Alex" />
+            <div>
+              <strong>@alexwtf</strong>
+              <span>запустил комнату</span>
+            </div>
+          </div>
+          <div class="live-room">
+            <p>Что происходит с интернетом сегодня?</p>
+            <div class="wave" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+            <button type="button">Войти в эфир</button>
+          </div>
+          <div class="mini-post">
+            <span>#wtfмомент</span>
+            <p>Когда новость настолько странная, что весь чат пишет одно и то же.</p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="features" aria-label="Возможности WTF">
+        <article><span>01</span><h2>Моментальная лента</h2><p>Короткие посты, реакции, репосты и локальные тренды без перегруза.</p></article>
+        <article><span>02</span><h2>Живые комнаты</h2><p>Голосовые обсуждения и быстрые опросы прямо поверх горячих тем.</p></article>
+        <article><span>03</span><h2>Умные круги</h2><p>Настраивай приватность: близкие, публично, фанаты или только команда.</p></article>
+      </section>
+
+      <section id="feed" class="dashboard" aria-labelledby="feed-title">
+        <div class="panel composer">
+          <div class="section-heading"><p class="eyebrow">Создать пост</p><h2 id="feed-title">Что за WTF?</h2></div>
+          <label class="sr-only" for="post-input">Текст нового поста</label>
+          <textarea id="post-input" maxlength="180" placeholder="Расскажи, что случилось..."></textarea>
+          <div class="composer__footer">
+            <span id="counter">0/180</span>
+            <button id="post-button" class="primary-button" type="button">Запостить</button>
+          </div>
+        </div>
+
+        <div class="panel feed-panel">
+          <div class="section-heading section-heading--row">
+            <div><p class="eyebrow">Лента</p><h2>Сейчас обсуждают</h2></div>
+            <button id="shuffle-button" class="ghost-button" type="button">Обновить</button>
+          </div>
+          <div id="feed-list" class="feed-list" aria-live="polite"></div>
+        </div>
+
+        <aside class="panel trends" aria-label="Тренды WTF">
+          <p class="eyebrow">Тренды</p>
+          <h2>Горячие темы</h2>
+          <ol>
+            <li><span>#ночнойчат</span><strong>48.2K</strong></li>
+            <li><span>#мемыпонедельника</span><strong>31.8K</strong></li>
+            <li><span>#wtfновости</span><strong>26.4K</strong></li>
+            <li><span>#безфильтра</span><strong>19.7K</strong></li>
+          </ol>
+        </aside>
+      </section>
+
+      <section id="rooms" class="rooms" aria-labelledby="rooms-title">
+        <div class="section-heading"><p class="eyebrow">Комнаты</p><h2 id="rooms-title">Врывайся в разговор</h2></div>
+        <div class="room-grid">
+          <article><span class="live-badge">LIVE</span><h3>Интернет опять сломался?</h3><p>1 284 слушателя · 9 спикеров</p></article>
+          <article><span class="live-badge">LIVE</span><h3>Фильмы, которые никто не понял</h3><p>842 слушателя · 5 спикеров</p></article>
+          <article><span class="live-badge live-badge--soon">SOON</span><h3>Ночной разбор стартапов</h3><p>Старт через 18 минут</p></article>
+        </div>
+      </section>
+
+      <section id="creators" class="creators" aria-labelledby="creators-title">
+        <div class="section-heading"><p class="eyebrow">Люди</p><h2 id="creators-title">Кого читать первым</h2></div>
+        <div class="creator-list">
+          <article><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&q=80" alt="Аватар Max" /><div><h3>Max Noise</h3><p>@maxnoise · мемы и новости</p></div><button type="button">Читать</button></article>
+          <article><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=160&q=80" alt="Аватар Mira" /><div><h3>Mira Flash</h3><p>@miraflash · лайв-комнаты</p></div><button type="button">Читать</button></article>
+          <article><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=160&q=80" alt="Аватар Nova" /><div><h3>Nova Byte</h3><p>@novabyte · технологии</p></div><button type="button">Читать</button></article>
+        </div>
+      </section>
+
+      <section id="app" class="cta" aria-labelledby="app-title">
+        <div><p class="eyebrow">WTF app</p><h2 id="app-title">Собери свой круг и запускай шум.</h2><p>Профили, посты, комнаты, тренды и приватные круги уже в одном прототипе.</p></div>
+        <a class="primary-button" href="#top">Начать сейчас</a>
+      </section>
+    </main>
+
+    <footer><span>© 2026 WTF</span><a href="#top">Наверх</a></footer>
+    <script src="script.js"></script>
+  </body>
+</html>
